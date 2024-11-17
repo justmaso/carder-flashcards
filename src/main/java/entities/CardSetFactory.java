@@ -21,7 +21,6 @@ public class CardSetFactory {
         for (int k = 0; k < fronts.size(); k++) {
             cards.add(new Card(fronts.get(k), backs.get(k)));
         }
-
         return new CardSet(title, description, cards);
     }
 }
