@@ -5,9 +5,9 @@ import interface_adapters.ViewModel;
 /**
  * The view model for the create view.
  */
-public class CreateViewModel extends ViewModel<String> {
+public class CreateViewModel extends ViewModel<CreateState> {
     public CreateViewModel() {
         super("create");
-        setState("");
+        setState(new CreateState());
     }
 }
