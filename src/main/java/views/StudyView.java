@@ -1,10 +1,11 @@
 package views;
+
+// create StudyState then change these:
 import data_access.InMemoryDataAccessObject;
 import entities.Card;
 import entities.CardSet;
-import interface_adapters.home.HomeViewModel;
-import interface_adapters.study.StudyViewModel;
 
+import interface_adapters.study.StudyViewModel;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -19,7 +20,7 @@ public class StudyView extends ParentView implements PropertyChangeListener {
     private int currentCard = 1;
     private CardLayout cardLayout;
     private final StudyViewModel studyViewModel;
-    private InMemoryDataAccessObject IMDao = new InMemoryDataAccessObject();
+    private InMemoryDataAccessObject IMDao = new InMemoryDataAccessObject(); // for testing right now
     // private final StudyController controller;
 
     public StudyView(StudyViewModel svm, int index) {
@@ -27,7 +28,7 @@ public class StudyView extends ParentView implements PropertyChangeListener {
         svm.addPropertyChangeListener(this);
 
     }
-    public JPanel getStudyPanel(int index) //StudyView(StudyViewModel studyViewModel, StudyController controller, DAO)
+    public JPanel getStudyPanel(int index)
     {
         CardSet cardSet = IMDao.getCardSets().get(index);
 
