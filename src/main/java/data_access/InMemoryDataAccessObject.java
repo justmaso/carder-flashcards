@@ -8,7 +8,6 @@ import use_cases.edit.EditDataAccessInterface;
 import use_cases.home.HomeDataAccessInterface;
 import use_cases.study.StudyDataAccessInterface;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -72,8 +71,9 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
             // prevents the IDs from being identical
             try {
                 TimeUnit.MILLISECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            }
+            catch (InterruptedException exc) {
+                exc.printStackTrace();
             }
         }
     }
@@ -93,7 +93,7 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
 
     @Override
     public List<CardSet> getCardSets() {
-         return new ArrayList<>(cardSets).reversed();
+        return new ArrayList<>(cardSets).reversed();
     }
 
     @Override

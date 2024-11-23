@@ -8,7 +8,7 @@ import entities.CardSet;
 public interface CreateDataAccessInterface {
     /**
      * Checks if any set already has a certain title.
-     * @param cardSetTitle the title of the set to check.
+     * @param cardSetTitle the title of the set to check for.
      * @return whether the title already exists.
      */
     boolean setExistsByTitle(String cardSetTitle);
