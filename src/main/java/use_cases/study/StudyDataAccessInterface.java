@@ -1,7 +1,6 @@
 package use_cases.study;
-import entities.CardSet;
 
-import java.util.List;
+import entities.CardSet;
 
 /**
  * The data access interface for the study case.
@@ -9,10 +8,9 @@ import java.util.List;
 public interface StudyDataAccessInterface {
 
     /**
-     * Gets the card sets currently stored.
-     * @return card set stored.
+     * Gets the card set from the title.
+     * @param title of the card set.
+     * @return card set.
      */
     CardSet getCardSet(String title);
-    }
-
-
+}
