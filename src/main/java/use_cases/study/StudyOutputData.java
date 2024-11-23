@@ -1,10 +1,9 @@
 package use_cases.study;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Output data for the creation use case.
+ * Output data for the study use case.
  */
 public class StudyOutputData {
     private final int id;
@@ -54,5 +53,4 @@ public class StudyOutputData {
     public List<String> getBacksShuffled() {
         return backsShuffled;
     }
-
 }
