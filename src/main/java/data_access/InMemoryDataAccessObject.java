@@ -8,6 +8,7 @@ import use_cases.edit.EditDataAccessInterface;
 import use_cases.home.HomeDataAccessInterface;
 import use_cases.study.StudyDataAccessInterface;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -105,6 +106,19 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
             }
             k++;
         }
+    }
+
+    @Override
+    public CardSet getCardSet(String cardSetTitle) {
+        int k = 0;
+        CardSet cards = new CardSet();
+        for (CardSet cardSet : cardSets) {
+            if (cardSet.getTitle().equals(cardSetTitle)) {
+                cards = cardSets.get(k);
+                break;
+            }
+        }
+        return cards;
     }
 
     @Override

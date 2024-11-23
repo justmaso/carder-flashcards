@@ -12,6 +12,9 @@ import interface_adapters.edit.EditViewModel;
 import interface_adapters.home.HomeController;
 import interface_adapters.home.HomePresenter;
 import interface_adapters.home.HomeViewModel;
+import interface_adapters.study.StudyController;
+import interface_adapters.study.StudyPresenter;
+import interface_adapters.study.StudyState;
 import interface_adapters.study.StudyViewModel;
 import use_cases.create.CreateInputBoundary;
 import use_cases.create.CreateInteractor;
@@ -22,6 +25,9 @@ import use_cases.create.CreateOutputBoundary;
 import use_cases.home.HomeInputBoundary;
 import use_cases.home.HomeInteractor;
 import use_cases.home.HomeOutputBoundary;
+import use_cases.study.StudyInputBoundary;
+import use_cases.study.StudyInteractor;
+import use_cases.study.StudyOutputBoundary;
 import views.*;
 
 import javax.swing.JFrame;
@@ -40,7 +46,7 @@ public class AppBuilder {
     private HomeController homeController;
     private CreateView createView;
     private CreateViewModel createViewModel;
-    private EditView editView;
+    //private EditView editView;
     private EditViewModel editViewModel;
     private StudyView studyView;
     private StudyViewModel studyViewModel;
@@ -80,8 +86,8 @@ public class AppBuilder {
      */
     public AppBuilder addEditView() {
         editViewModel = new EditViewModel();
-        editView = new EditView(editViewModel);
-        cardPanel.add(editView, editViewModel.getViewName());
+        //editView = new EditView(editViewModel);
+        //cardPanel.add(editView, editViewModel.getViewName());
         return this;
     }
 
@@ -144,7 +150,16 @@ public class AppBuilder {
     }
 
     public AppBuilder addStudyUseCase() {
-        // TODO
+        final StudyOutputBoundary studyOutputBoundary = new StudyPresenter(
+                viewManagerModel,
+                homeViewModel,
+                studyViewModel
+        );
+        final StudyInputBoundary studyInputBoundary = new StudyInteractor(studyOutputBoundary,
+                dataAO
+        );
+        final StudyController studyController = new StudyController(studyInputBoundary);
+        studyView.setStudyController(studyController);
         return this;
     }
 

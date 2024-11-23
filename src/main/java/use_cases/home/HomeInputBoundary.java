@@ -1,5 +1,7 @@
 package use_cases.home;
 
+import interface_adapters.study.StudyState;
+
 /**
  * The home input boundary for home actions.
  */
@@ -22,9 +24,9 @@ public interface HomeInputBoundary {
 
     /**
      * Switches to the study view.
-     * @param cardSetTitle the title of set to study.
+     * @param studyState the state of set to study.
      */
-    void switchToStudyView(String cardSetTitle);
+    void switchToStudyView(StudyState studyState);
 
     /**
      * Deletes a card set.

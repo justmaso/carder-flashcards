@@ -1,5 +1,6 @@
 package interface_adapters.home;
 
+import interface_adapters.study.StudyState;
 import use_cases.home.HomeInputBoundary;
 
 /**
@@ -25,6 +26,14 @@ public class HomeController {
      */
     public void switchToCreateView() {
         homeInteractor.switchToCreateView();
+    }
+
+    /**
+     * Executes the use case of switching to our study view.
+     * @param studyState current study state.
+     */
+    public void switchToStudyView(StudyState studyState) {
+        homeInteractor.switchToStudyView(studyState);
     }
 
     /**

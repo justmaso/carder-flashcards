@@ -3,6 +3,7 @@ package views;
 import interface_adapters.home.HomeController;
 import interface_adapters.home.HomeState;
 import interface_adapters.home.HomeViewModel;
+import interface_adapters.study.StudyState;
 
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -55,6 +56,8 @@ public class HomeView extends ParentView implements PropertyChangeListener {
         final List<Integer> IDs = homeState.getIDs();
         final List<String> titles = homeState.getTitles();
         final List<String> descriptions = homeState.getDescriptions();
+        final List<List<String>> fronts = homeState.getFronts();
+        final List<List<String>> backs = homeState.getBacks();
 
         for (int k = 0; k < IDs.size(); k++) {
             final JPanel row = new JPanel(new BorderLayout());
@@ -82,8 +85,17 @@ public class HomeView extends ParentView implements PropertyChangeListener {
             // add functionality to the buttons
             int finalK = k;
             studyButton.addActionListener(e -> {
+                if (e.getSource().equals(studyButton)) {
+                    StudyState studyState = new StudyState();
+                    studyState.setTitle(titles.get(finalK));
+                    studyState.setDescription(descriptions.get(finalK));
+                    studyState.setFronts(fronts.get(finalK));
+                    studyState.setBacks(backs.get(finalK));
+                    homeController.switchToStudyView(studyState);
+                }
                 JOptionPane.showMessageDialog(this,
                         String.format("studying [%d], described as [%s]", IDs.get(finalK), descriptions.get(finalK)));
+
             });
             editButton.addActionListener(e -> {
                 JOptionPane.showMessageDialog(this,

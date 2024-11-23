@@ -1,65 +1,63 @@
 package views;
 
-// create StudyState then change these:
-import data_access.InMemoryDataAccessObject;
-import entities.Card;
-import entities.CardSet;
-
-import interface_adapters.home.HomeController;
-import interface_adapters.study.StudyViewModel;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class StudyView extends ParentView implements PropertyChangeListener {
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+
+import interface_adapters.study.StudyController;
+import interface_adapters.study.StudyState;
+import interface_adapters.study.StudyViewModel;
+
+/**
+ * A class for the study view.
+ */
+public class StudyView extends ParentView implements PropertyChangeListener, ActionListener {
 
     private final Container container = new Container();
     private int currentCard = 1;
     private CardLayout cardLayout;
-    private final StudyViewModel studyViewModel;
-    private InMemoryDataAccessObject IMDao = new InMemoryDataAccessObject(); // for testing right now
-    private HomeController homeController;
-    // private final StudyController controller;
+    private JPanel studyPanel = new JPanel();
+    private StudyController studyController;
 
+    public StudyView(StudyViewModel svm) {
 
-    public StudyView(StudyViewModel svm, int index) {
-        studyViewModel = svm;
         svm.addPropertyChangeListener(this);
-
-        final JPanel studyPanel = getStudyPanel(index);
 
         add(studyPanel, BorderLayout.CENTER);
 
-        addHomeListener(e -> {
-            homeController.execute();
+        addAboutListener(evt -> {
+            JOptionPane.showMessageDialog(null,
+                    "You are currently studying flashcards");
         });
 
-        addAboutListener(e -> {
-            JOptionPane.showMessageDialog(null,
-                    "carder flashcards is a simple studying app built in java\n");
+        addHomeListener(evt -> {
+            studyController.switchToHomeView();
+
         });
 
     }
-    public JPanel getStudyPanel(int index)
-    {
-        CardSet cardSet = IMDao.getCardSets().get(index);
 
+    private JPanel getStudyPanel(StudyState state) {
         // JPanel where the cards will go
         JPanel panel = new JPanel();
 
         this.cardLayout = new CardLayout();
-        // card = new CardLayout(40, 30);
         panel.setLayout(cardLayout);
-        int size = cardSet.getBacks().size();
-        for (int i=0; i<size; i++) {
-            JPanel cl = new CardPanel(cardSet.getFronts().get(i), cardSet.getBacks().get(i));
-            panel.add(cl, String.valueOf(i+1));
-        }
 
+        List<String> fronts = state.getFronts();
+        List<String> backs = state.getBacks();
+        int size = fronts.size();
+
+        for (int i = 0; i < size; i++) {
+            JPanel cl = new CardPanel(fronts.get(i), backs.get(i));
+            panel.add(cl, String.valueOf(i + 1));
+        }
         // Create a JPanel for the navigation buttons
         JPanel buttonPanel = new JPanel();
 
@@ -76,13 +74,9 @@ public class StudyView extends ParentView implements PropertyChangeListener {
 
         // Add buttons to move through the flashcard set.
         buttonPanel.add(firstBtn);
-
-        buttonPanel.add(nextBtn);
-
         buttonPanel.add(previousBtn);
-
+        buttonPanel.add(nextBtn);
         buttonPanel.add(lastBtn);
-
         buttonPanel.add(shuffleBtn);
 
         // add 'first' button in ActionListener
@@ -91,7 +85,7 @@ public class StudyView extends ParentView implements PropertyChangeListener {
             // first card in CardLayout
             // value of the card is 1
             currentCard = 1;
-            cardLayout.show(panel, "" + (currentCard));
+            cardLayout.show(panel, "" + currentCard);
         });
 
         // add "last" button in ActionListener
@@ -101,20 +95,16 @@ public class StudyView extends ParentView implements PropertyChangeListener {
 
             // value of the last card
             currentCard = size;
-            cardLayout.show(panel, "" + (currentCard));
+            cardLayout.show(panel, "" + currentCard);
         });
 
         // add 'next' button in ActionListener
         nextBtn.addActionListener(arg0 -> {
 
-            if (currentCard < size) // studyset size
-            {
-
+            if (currentCard < size) {
                 // move to the next card
                 currentCard += 1;
-
-                // show the value of the current card
-                cardLayout.show(panel, "" + (currentCard));
+                cardLayout.show(panel, "" + currentCard);
             }
         });
 
@@ -126,46 +116,57 @@ public class StudyView extends ParentView implements PropertyChangeListener {
                 currentCard -= 1;
 
                 // show the value of current card
-                cardLayout.show(panel, "" + (currentCard));
+                cardLayout.show(panel, "" + currentCard);
             }
         });
 
         shuffleBtn.addActionListener(arg0 -> {
+            List<List<String>> frontToBack = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                List<String> card = new ArrayList<>();
+                card.add(fronts.get(i));
+                card.add(backs.get(i));
+                frontToBack.add(card);
+            }
 
-            List<Card> shuffled = cardSet.shuffleCards();
-            for (int i=0; i<size; i++) {
-                JPanel cl = new CardPanel(shuffled.get(i).getFront(), shuffled.get(i).getBack());
-                panel.add(cl, String.valueOf(i+1));
+            Collections.shuffle(frontToBack);
+            for (int i = 0; i < size; i++) {
+                JPanel cl = new CardPanel(frontToBack.get(i).getFirst(), frontToBack.get(i).getLast());
+                panel.add(cl, String.valueOf(i + 1));
             }
             currentCard = 1;
 
             // value of the card is 1
-            cardLayout.show(panel, "" + (currentCard));
+            cardLayout.show(panel, "" + currentCard);
         });
 
         final JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(panel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         return mainPanel;
+
     }
 
-    // Main Method (for testing right now)
-    public static void main(String[] args)
-    {
-        int index=1;
-        JFrame j = new JFrame();
-        StudyView studyView = new StudyView(new StudyViewModel(), index);
-        j.add(studyView);
-        j.setSize(500,350);
-        j.setVisible(true);
+    public void actionPerformed(ActionEvent evt) {
+        cardLayout.next(container);
     }
 
-    public void setHomeController(HomeController homeController) {
-        this.homeController = homeController;
+    public void setStudyController(StudyController studyController) {
+        this.studyController = studyController;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        cardLayout.next(container);
+        final StudyState state = (StudyState) evt.getNewValue();
+        studyPanel.removeAll();
+        // reset current card to the first card
+        currentCard = 1;
+        studyPanel.add(getStudyPanel(state));
+
+        // addAboutListener(e -> {
+            // JOptionPane.showMessageDialog(studyPanel,
+                    // String.format("You are currently studying %s", state.getDescription()));
+        // });
+
     }
 }

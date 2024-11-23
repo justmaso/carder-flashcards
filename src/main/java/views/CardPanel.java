@@ -10,24 +10,23 @@ import javax.swing.*;
 public class CardPanel extends JPanel implements ActionListener {
 
     private final CardLayout card;
-    private final JButton back, front;
+    private final JButton back;
+    private final JButton front;
     private final Container container;
-    // private final
 
-    CardPanel(String q, String a)
-    {
+    CardPanel(String question, String answer) {
         // q is the text on the front, a is the text on the back.
         // Initialize cards
         card = new CardLayout(40, 30);
         container = this;
         container.setLayout(card);
         // Initialize the button to flip to the card's back
-        back = new JButton(q);
+        back = new JButton(question);
 
         // Initialize the button to flip to the card's front
-        front = new JButton(a);
+        front = new JButton(answer);
 
-        // Add Jbutton using ActionListener.
+        // Add JButton using ActionListener.
         back.addActionListener(this);
 
         front.addActionListener(this);
@@ -41,8 +40,7 @@ public class CardPanel extends JPanel implements ActionListener {
         container.setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent evt) {
         card.next(container);
     }
 }
