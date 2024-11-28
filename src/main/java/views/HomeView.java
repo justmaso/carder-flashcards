@@ -18,6 +18,7 @@ import javax.swing.*;
 public class HomeView extends ParentView implements PropertyChangeListener {
     private final HomeViewModel homeViewModel;
     private HomeController homeController;
+    private StudyController studyController;
     private JPanel cardSetsPanel = new JPanel();
     private final JScrollPane cardSetsScrollPane = new JScrollPane(cardSetsPanel);
 
@@ -87,14 +88,7 @@ public class HomeView extends ParentView implements PropertyChangeListener {
             int finalK = k;
             studyButton.addActionListener(e -> {
                 if (e.getSource().equals(studyButton)) {
-                    StudyState studyState = new StudyState();
-                    studyState.setTitle(titles.get(finalK));
-                    studyState.setDescription(descriptions.get(finalK));
-                    studyState.setFronts(fronts.get(finalK));
-                    studyState.setBacks(backs.get(finalK));
-
-                    //studyController.execute();
-                    homeController.switchToStudyView(studyState);
+                    homeController.switchToStudyView(titles.get(finalK), studyController);
                 }
                 JOptionPane.showMessageDialog(this,
                         String.format("studying [%d], described as [%s]", IDs.get(finalK), descriptions.get(finalK)));
@@ -136,6 +130,8 @@ public class HomeView extends ParentView implements PropertyChangeListener {
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
     }
+
+    public void setStudyController(StudyController studyController) { this.studyController = studyController; }
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {

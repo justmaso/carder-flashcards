@@ -19,18 +19,34 @@ public class StudyOutputData {
         this.backs = backs;
     }
 
+    /**
+     * Gets the title of the card set to be studied (output).
+     * @return the title.
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Gets the description of the card set to be studied (output).
+     * @return the description.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Gets the fronts of the card set to be studied (output).
+     * @return the fronts.
+     */
     public List<String> getFronts() {
         return fronts;
     }
 
+    /**
+     * Gets the backs of the card set to be studied (output).
+     * @return the backs.
+     */
     public List<String> getBacks() {
         return backs;
     }

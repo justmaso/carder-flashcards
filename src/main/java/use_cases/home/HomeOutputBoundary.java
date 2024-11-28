@@ -22,10 +22,4 @@ public interface HomeOutputBoundary {
      * @param cardSetTitle the title of the set that will be edited.
      */
     void switchToEditView(String cardSetTitle);
-
-    /**
-     * Switches to the study view.
-     * @param studyState the set to study.
-     */
-    void switchToStudyView(StudyState studyState);
 }

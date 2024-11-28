@@ -29,11 +29,6 @@ public class HomeInteractor implements HomeInputBoundary {
     }
 
     @Override
-    public void switchToStudyView(StudyState studyState) {
-        homePresenter.switchToStudyView(studyState);
-    }
-
-    @Override
     public void execute() {
         final List<CardSet> allCardSets = homeDAO.getCardSets();
 

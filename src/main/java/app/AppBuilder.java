@@ -141,6 +141,7 @@ public class AppBuilder {
         );
         final CreateController createController = new CreateController(createInputBoundary);
         createView.setCreateController(createController);
+
         return this;
     }
 
@@ -160,6 +161,7 @@ public class AppBuilder {
         );
         final StudyController studyController = new StudyController(studyInputBoundary);
         studyView.setStudyController(studyController);
+        homeView.setStudyController(studyController);
         return this;
     }
 

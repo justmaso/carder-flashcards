@@ -2,9 +2,6 @@ package use_cases.study;
 
 import entities.CardSet;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The study interactor.
  */

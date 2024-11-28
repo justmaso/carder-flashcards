@@ -51,12 +51,4 @@ public class HomePresenter implements HomeOutputBoundary {
     public void switchToEditView(String cardSetTitle) {
         // TODO
     }
-
-    @Override
-    public void switchToStudyView(StudyState studyState) {
-        studyViewModel.setState(studyState);
-        studyViewModel.firePropertyChanged();
-        viewManagerModel.setState(studyViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
 }

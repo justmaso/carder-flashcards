@@ -31,7 +31,12 @@ public class StudyPresenter implements StudyOutputBoundary {
     public void prepareSuccessView(StudyOutputData studyOutputData) {
         final StudyState studyState = studyViewModel.getState();
         studyState.setTitle(studyOutputData.getTitle());
+        studyState.setDescription(studyOutputData.getDescription());
+        studyState.setFronts(studyOutputData.getFronts());
+        studyState.setBacks(studyOutputData.getBacks());
         studyViewModel.setState(studyState);
         studyViewModel.firePropertyChanged();
+        viewManagerModel.setState(studyViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

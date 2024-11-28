@@ -110,11 +110,10 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
 
     @Override
     public CardSet getCardSet(String cardSetTitle) {
-        int k = 0;
         CardSet cards = new CardSet();
-        for (CardSet cardSet : cardSets) {
-            if (cardSet.getTitle().equals(cardSetTitle)) {
-                cards = cardSets.get(k);
+        for (int i = 0; i < cardSets.size(); i++) {
+            if (cardSets.get(i).getTitle().equals(cardSetTitle)) {
+                cards = cardSets.get(i);
                 break;
             }
         }

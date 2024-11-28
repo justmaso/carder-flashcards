@@ -74,13 +74,9 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
 
         // Initialize the buttons to move through flashcard set
         JButton firstBtn = new JButton("First");
-
         JButton nextBtn = new JButton("Next");
-
         JButton previousBtn = new JButton("Previous");
-
         JButton lastBtn = new JButton("Last");
-
         JButton shuffleBtn = new JButton("Shuffle");
 
         // Add buttons to move through the flashcard set.
@@ -92,9 +88,7 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
 
         // add 'first' button in ActionListener
         firstBtn.addActionListener(arg0 -> {
-
-            // first card in CardLayout
-            // value of the card is 1
+            // value of the first card is 1
             currentCard = 1;
             cardLayoutCards.show(cardsPanel, "" + currentCard);
             cardLayoutNumbers.show(numberPanel, "" + currentCard);
@@ -102,7 +96,6 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
 
         // add "last" button in ActionListener
         lastBtn.addActionListener(arg0 -> {
-
             // last card in CardLayout
             currentCard = size;
             cardLayoutCards.show(cardsPanel, "" + currentCard);
@@ -111,7 +104,6 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
 
         // add 'next' button in ActionListener
         nextBtn.addActionListener(arg0 -> {
-
             if (currentCard < size) {
                 // move to the next card
                 currentCard += 1;
@@ -123,10 +115,8 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
         // add 'previous' button in ActionListener
         previousBtn.addActionListener(arg0 -> {
             if (currentCard > 1) {
-
                 // move to the previous card
                 currentCard -= 1;
-
                 // show the value of current card
                 cardLayoutCards.show(cardsPanel, "" + currentCard);
                 cardLayoutNumbers.show(numberPanel, "" + currentCard);
@@ -151,6 +141,7 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
 
             // value of the card is 1
             cardLayoutCards.show(cardsPanel, "" + currentCard);
+            cardLayoutNumbers.show(numberPanel, "" + currentCard);
         });
 
         final JPanel mainPanel = new JPanel(new BorderLayout());

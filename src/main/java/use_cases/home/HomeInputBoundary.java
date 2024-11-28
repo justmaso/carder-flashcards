@@ -23,12 +23,6 @@ public interface HomeInputBoundary {
     void switchToEditView(String cardSetTitle);
 
     /**
-     * Switches to the study view.
-     * @param studyState the state of set to study.
-     */
-    void switchToStudyView(StudyState studyState);
-
-    /**
      * Deletes a card set.
      * @param cardSetTitle the title of the set to delete.
      */
