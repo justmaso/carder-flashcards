@@ -10,8 +10,6 @@ public class StudyState {
     private String description;
     private List<String> fronts;
     private List<String> backs;
-    private List<String> frontsShuffled;
-    private List<String> backsShuffled;
 
     /**
      * Gets the title of the set currently in the study state.
@@ -75,37 +73,5 @@ public class StudyState {
      */
     public void setBacks(List<String> backs) {
         this.backs = backs;
-    }
-
-    /**
-     * Gets the shuffled back sides of the set currently in the study state.
-     * @return shuffled set's backs.
-     */
-    public List<String> getBacksShuffled() {
-        return backsShuffled;
-    }
-
-    /**
-     * Set the shuffled backs of the current set in the study state.
-     * @param backsShuffled shuffled back sides of the set.
-     */
-    public void setBacksShuffled(List<String> backsShuffled) {
-        this.backsShuffled = backsShuffled;
-    }
-
-    /**
-     * Gets the shuffled fronts of the set currently in the study state.
-     * @return shuffled set's fronts.
-     */
-    public List<String> getFrontsShuffled() {
-        return frontsShuffled;
-    }
-
-    /**
-     * Set the shuffled fronts of the current set in the study state.
-     * @param frontsShuffled fronts of the shuffled set.
-     */
-    public void setFrontsShuffled(List<String> frontsShuffled) {
-        this.frontsShuffled = frontsShuffled;
     }
 }

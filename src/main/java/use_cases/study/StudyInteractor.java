@@ -1,10 +1,9 @@
 package use_cases.study;
 
+import entities.CardSet;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import entities.Card;
-import entities.CardSet;
 
 /**
  * The study interactor.
@@ -25,26 +24,10 @@ public class StudyInteractor implements StudyInputBoundary {
 
     @Override
     public void execute(StudyInputData studyInputData) {
-        final String title = studyInputData.getTitle();
-
-        CardSet cards = studyDao.getCardSet(title);
-        List<Card> shuffledCards = cards.getShuffledCards();
-        List<String> shuffledFronts = new ArrayList<>();
-        List<String> shuffledBacks = new ArrayList<>();
-        for (int i = 0; i < shuffledCards.size(); i++) {
-            shuffledFronts.add(i, shuffledCards.get(i).getFront());
-            shuffledBacks.add(i, shuffledCards.get(i).getBack());
-        }
-
-        final StudyOutputData studyOutputData = new StudyOutputData(
-                cards.getID(),
-                cards.getTitle(),
-                cards.getDescription(),
-                cards.getFronts(),
-                cards.getBacks(),
-                shuffledFronts,
-                shuffledBacks
-                );
-        studyPresenter.prepareSuccessView(studyOutputData);
+        String title = studyInputData.getTitle();
+        CardSet cardSet = studyDao.getCardSet(title);
+        StudyOutputData output = new StudyOutputData(cardSet.getTitle(), cardSet.getDescription(),
+                cardSet.getFronts(), cardSet.getBacks());
+        studyPresenter.prepareSuccessView(output);
     }
 }

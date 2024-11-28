@@ -3,6 +3,7 @@ package views;
 import interface_adapters.home.HomeController;
 import interface_adapters.home.HomeState;
 import interface_adapters.home.HomeViewModel;
+import interface_adapters.study.StudyController;
 import interface_adapters.study.StudyState;
 
 import java.awt.*;
@@ -91,6 +92,8 @@ public class HomeView extends ParentView implements PropertyChangeListener {
                     studyState.setDescription(descriptions.get(finalK));
                     studyState.setFronts(fronts.get(finalK));
                     studyState.setBacks(backs.get(finalK));
+
+                    //studyController.execute();
                     homeController.switchToStudyView(studyState);
                 }
                 JOptionPane.showMessageDialog(this,

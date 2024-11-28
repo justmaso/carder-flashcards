@@ -13,13 +13,16 @@ public class CardPanel extends JPanel implements ActionListener {
     private final JButton back;
     private final JButton front;
     private final Container container;
+    //private final JCheckBox checkBox;
 
     CardPanel(String question, String answer) {
         // q is the text on the front, a is the text on the back.
         // Initialize cards
         card = new CardLayout(40, 30);
+
         container = this;
         container.setLayout(card);
+
         // Initialize the button to flip to the card's back
         back = new JButton(question);
 
@@ -33,10 +36,8 @@ public class CardPanel extends JPanel implements ActionListener {
 
         // Adding the JButtons
         container.add("a", back);
-
         container.add("b", front);
 
-        container.setPreferredSize(new Dimension(100, 250));
         container.setVisible(true);
     }
 

@@ -7,7 +7,7 @@ public interface StudyInputBoundary {
 
     /**
      * Executes our 'study' use case.
-     * @param studyInputData the input data.
+     * @param studyInputData input data.
      */
     void execute(StudyInputData studyInputData);
 
