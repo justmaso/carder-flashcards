@@ -71,8 +71,9 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
             // prevents the IDs from being identical
             try {
                 TimeUnit.MILLISECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            }
+            catch (InterruptedException exc) {
+                exc.printStackTrace();
             }
         }
     }
@@ -92,7 +93,7 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
 
     @Override
     public List<CardSet> getCardSets() {
-         return new ArrayList<>(cardSets).reversed();
+        return new ArrayList<>(cardSets).reversed();
     }
 
     @Override
@@ -108,6 +109,18 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
     }
 
     @Override
+    public CardSet getCardSet(String cardSetTitle) {
+        CardSet cards = new CardSet();
+        for (int i = 0; i < cardSets.size(); i++) {
+            if (cardSets.get(i).getTitle().equals(cardSetTitle)) {
+                cards = cardSets.get(i);
+                break;
+            }
+        }
+        return cards;
+    }
+
+    // @Override
     public void updateSet(CardSet newSet) {
         final int setID = newSet.getID();
         int k = 0;

@@ -1,5 +1,7 @@
 package use_cases.home;
 
+import interface_adapters.study.StudyState;
+
 /**
  * The output boundary for our home use case.
  */
@@ -20,10 +22,4 @@ public interface HomeOutputBoundary {
      * @param cardSetTitle the title of the set that will be edited.
      */
     void switchToEditView(String cardSetTitle);
-
-    /**
-     * Switches to the study view.
-     * @param cardSetTitle the title of set to study.
-     */
-    void switchToStudyView(String cardSetTitle);
 }

@@ -38,4 +38,5 @@ public class Navigation extends JPanel {
     public JButton getAboutButton() {
         return aboutButton;
     }
+
 }

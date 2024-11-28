@@ -3,10 +3,10 @@ package interface_adapters.home;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.create.CreateViewModel;
 import interface_adapters.edit.EditViewModel;
+import interface_adapters.study.StudyState;
 import interface_adapters.study.StudyViewModel;
 import use_cases.home.HomeOutputBoundary;
 import use_cases.home.HomeOutputData;
-
 
 /**
  * The presenter for our home use case.
@@ -49,11 +49,6 @@ public class HomePresenter implements HomeOutputBoundary {
 
     @Override
     public void switchToEditView(String cardSetTitle) {
-        // TODO
-    }
-
-    @Override
-    public void switchToStudyView(String cardSetTitle) {
         // TODO
     }
 }

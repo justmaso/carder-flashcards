@@ -1,6 +1,7 @@
 package use_cases.home;
 
 import entities.CardSet;
+import interface_adapters.study.StudyState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,6 @@ public class HomeInteractor implements HomeInputBoundary {
     @Override
     public void switchToEditView(String cardSetTitle) {
         homePresenter.switchToEditView(cardSetTitle);
-    }
-
-    @Override
-    public void switchToStudyView(String cardSetTitle) {
-        homePresenter.switchToStudyView(cardSetTitle);
     }
 
     @Override

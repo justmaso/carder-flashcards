@@ -52,7 +52,8 @@ public class CardSet {
         // get the card from the appropriate set
         if (shuffled) {
             return shuffledCards.get(currIndex);
-        } else {
+        }
+        else {
             return defaultCards.get(currIndex);
         }
     }
@@ -117,6 +118,14 @@ public class CardSet {
         shuffledCards = new ArrayList<>(defaultCards);
         Collections.shuffle(shuffledCards);
         currIndex = 0;
+    }
+
+    /**
+     * Return this card set's shuffled cards.
+     * @return shuffled cards
+     */
+    public List<Card> getShuffledCards() {
+        return shuffledCards;
     }
 
     public void clearShuffledCards() {

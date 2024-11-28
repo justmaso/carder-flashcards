@@ -3,6 +3,8 @@ package views;
 import interface_adapters.home.HomeController;
 import interface_adapters.home.HomeState;
 import interface_adapters.home.HomeViewModel;
+import interface_adapters.study.StudyController;
+import interface_adapters.study.StudyState;
 
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -16,6 +18,7 @@ import javax.swing.*;
 public class HomeView extends ParentView implements PropertyChangeListener {
     private final HomeViewModel homeViewModel;
     private HomeController homeController;
+    private StudyController studyController;
     private JPanel cardSetsPanel = new JPanel();
     private final JScrollPane cardSetsScrollPane = new JScrollPane(cardSetsPanel);
 
@@ -55,6 +58,8 @@ public class HomeView extends ParentView implements PropertyChangeListener {
         final List<Integer> IDs = homeState.getIDs();
         final List<String> titles = homeState.getTitles();
         final List<String> descriptions = homeState.getDescriptions();
+        final List<List<String>> fronts = homeState.getFronts();
+        final List<List<String>> backs = homeState.getBacks();
 
         for (int k = 0; k < IDs.size(); k++) {
             final JPanel row = new JPanel(new BorderLayout());
@@ -82,8 +87,12 @@ public class HomeView extends ParentView implements PropertyChangeListener {
             // add functionality to the buttons
             int finalK = k;
             studyButton.addActionListener(e -> {
+                if (e.getSource().equals(studyButton)) {
+                    homeController.switchToStudyView(titles.get(finalK), studyController);
+                }
                 JOptionPane.showMessageDialog(this,
                         String.format("studying [%d], described as [%s]", IDs.get(finalK), descriptions.get(finalK)));
+
             });
             editButton.addActionListener(e -> {
                 JOptionPane.showMessageDialog(this,
@@ -121,6 +130,8 @@ public class HomeView extends ParentView implements PropertyChangeListener {
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
     }
+
+    public void setStudyController(StudyController studyController) { this.studyController = studyController; }
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
