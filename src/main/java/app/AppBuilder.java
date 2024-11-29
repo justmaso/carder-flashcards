@@ -1,7 +1,9 @@
 package app;
 
+//import data_access.FileDataAccessObject;
 import data_access.InMemoryDataAccessObject;
 import entities.CardSetFactory;
+import interface_adapters.ThemeManager;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.create.CreateController;
 import interface_adapters.create.CreatePresenter;
@@ -13,7 +15,6 @@ import interface_adapters.home.HomeController;
 import interface_adapters.home.HomePresenter;
 import interface_adapters.home.HomeViewModel;
 import interface_adapters.study.StudyController;
-import interface_adapters.study.StudyPresenter;
 import interface_adapters.study.StudyViewModel;
 import use_cases.create.CreateInputBoundary;
 import use_cases.create.CreateInteractor;
@@ -29,10 +30,8 @@ import use_cases.study.StudyInteractor;
 import use_cases.study.StudyOutputBoundary;
 import views.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-import java.awt.CardLayout;
+import javax.swing.*;
+import java.awt.*;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -49,7 +48,6 @@ public class AppBuilder {
     private EditViewModel editViewModel;
     private StudyView studyView;
     private StudyViewModel studyViewModel;
-    private StudyController studyController;
 
     private final InMemoryDataAccessObject dataAO = new InMemoryDataAccessObject();
     private final CardSetFactory cardSetFactory = new CardSetFactory();
@@ -156,7 +154,7 @@ public class AppBuilder {
                 homeViewModel
         );
         final StudyInputBoundary studyInputBoundary = new StudyInteractor(studyOutputBoundary);
-        studyController  = new StudyController(studyInputBoundary);
+        final StudyController studyController  = new StudyController(studyInputBoundary);
         studyView.setStudyController(studyController);
         return this;
     }
@@ -176,7 +174,7 @@ public class AppBuilder {
 
         // executes the home use case and refreshes the home so we can
         // see pre-existing card sets from the DAO
-        homeController.refresh();
+        homeController.execute();
 
         // app initially shows the home view
         viewManagerModel.setState(homeViewModel.getViewName());

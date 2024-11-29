@@ -1,5 +1,7 @@
 package views;
 
+import interface_adapters.ThemeManager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,18 +11,26 @@ import java.awt.*;
 public class Navigation extends JPanel {
     public static final String HOME = "home";
     public static final String ABOUT = "about";
+
     private final JButton homeButton;
     private final JButton aboutButton;
+    private final JButton themeButton;
 
     public Navigation() {
         setLayout(new FlowLayout(FlowLayout.CENTER));
         homeButton = new JButton(HOME);
         aboutButton = new JButton(ABOUT);
+        themeButton = new JButton(ThemeManager.getOtherThemeName());
 
         // buttons have no functionality right now
-        // the functionality is added in each separate view
         add(homeButton);
         add(aboutButton);
+        add(themeButton);
+
+        themeButton.addActionListener(e -> {
+            ThemeManager.toggleTheme();
+            themeButton.setText(ThemeManager.getOtherThemeName());
+        });
     }
 
     /**
