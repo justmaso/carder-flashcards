@@ -5,9 +5,9 @@ import interface_adapters.ViewModel;
 /**
  * The view model for the study view.
  */
-public class StudyViewModel extends ViewModel<String> {
+public class StudyViewModel extends ViewModel<StudyState> {
     public StudyViewModel() {
         super("study");
-        setState("");
+        setState(new StudyState());
     }
 }
