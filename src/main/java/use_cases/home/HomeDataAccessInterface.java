@@ -19,4 +19,6 @@ public interface HomeDataAccessInterface {
      * @param cardSetTitle the set to delete
      */
     void deleteCardSet(String cardSetTitle);
+
+    void updateSet(CardSet newSet);
 }

@@ -17,8 +17,8 @@ public class App {
             final JFrame app = builder
                     .addHomeView()
                     .addCreateView()
-                    .addEditView()
-                    .addStudyView()
+//                    .addEditView()
+//                    .addStudyView()
                     .addHomeUseCase()
                     .addCreateUseCase()
                     .addEditUseCase()

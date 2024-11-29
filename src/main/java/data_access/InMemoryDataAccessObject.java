@@ -4,9 +4,9 @@ import entities.CardSet;
 
 import entities.CardSetFactory;
 import use_cases.create.CreateDataAccessInterface;
-import use_cases.edit.EditDataAccessInterface;
+//import use_cases.edit.EditDataAccessInterface;
 import use_cases.home.HomeDataAccessInterface;
-import use_cases.study.StudyDataAccessInterface;
+//import use_cases.study.StudyDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,9 @@ import java.util.concurrent.TimeUnit;
  * An in-memory implementation of the data access object for storing card sets.
  * This implementation does NOT keep data persistently (like a database would).
  */
+//, EditDataAccessInterface, StudyDataAccessInterface
 public class InMemoryDataAccessObject implements HomeDataAccessInterface,
-        CreateDataAccessInterface, EditDataAccessInterface, StudyDataAccessInterface {
+        CreateDataAccessInterface {
     private final List<CardSet> cardSets = new ArrayList<>();
 
     public InMemoryDataAccessObject() {

@@ -40,9 +40,9 @@ public class AppBuilder {
     private HomeController homeController;
     private CreateView createView;
     private CreateViewModel createViewModel;
-    private EditView editView;
+//    private EditView editView;
     private EditViewModel editViewModel;
-    private StudyView studyView;
+//    private StudyView studyView;
     private StudyViewModel studyViewModel;
 
     private final InMemoryDataAccessObject dataAO = new InMemoryDataAccessObject();
@@ -78,23 +78,23 @@ public class AppBuilder {
      * Adds the edit view to our app.
      * @return this builder.
      */
-    public AppBuilder addEditView() {
-        editViewModel = new EditViewModel();
-        editView = new EditView(editViewModel);
-        cardPanel.add(editView, editViewModel.getViewName());
-        return this;
-    }
+//    public AppBuilder addEditView() {
+//        editViewModel = new EditViewModel();
+//        editView = new EditView(editViewModel);
+//        cardPanel.add(editView, editViewModel.getViewName());
+//        return this;
+//    }
 
     /**
      * Adds the study view to our app.
      * @return this builder.
      */
-    public AppBuilder addStudyView() {
-        studyViewModel = new StudyViewModel();
-        studyView = new StudyView(studyViewModel);
-        cardPanel.add(studyView, studyViewModel.getViewName());
-        return this;
-    }
+//    public AppBuilder addStudyView() {
+//        studyViewModel = new StudyViewModel();
+//        studyView = new StudyView(studyViewModel);
+//        cardPanel.add(studyView, studyViewModel.getViewName());
+//        return this;
+//    }
 
     /**
      * Adds the home use case to our app.
