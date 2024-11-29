@@ -12,6 +12,8 @@ import interface_adapters.edit.EditViewModel;
 import interface_adapters.home.HomeController;
 import interface_adapters.home.HomePresenter;
 import interface_adapters.home.HomeViewModel;
+import interface_adapters.study.StudyController;
+import interface_adapters.study.StudyPresenter;
 import interface_adapters.study.StudyViewModel;
 import use_cases.create.CreateInputBoundary;
 import use_cases.create.CreateInteractor;
@@ -22,6 +24,9 @@ import use_cases.create.CreateOutputBoundary;
 import use_cases.home.HomeInputBoundary;
 import use_cases.home.HomeInteractor;
 import use_cases.home.HomeOutputBoundary;
+import use_cases.study.StudyInputBoundary;
+import use_cases.study.StudyInteractor;
+import use_cases.study.StudyOutputBoundary;
 import views.*;
 
 import javax.swing.JFrame;
@@ -44,6 +49,7 @@ public class AppBuilder {
     private EditViewModel editViewModel;
     private StudyView studyView;
     private StudyViewModel studyViewModel;
+    private StudyController studyController;
 
     private final InMemoryDataAccessObject dataAO = new InMemoryDataAccessObject();
     private final CardSetFactory cardSetFactory = new CardSetFactory();
@@ -144,7 +150,14 @@ public class AppBuilder {
     }
 
     public AppBuilder addStudyUseCase() {
-        // TODO
+        final StudyOutputBoundary studyOutputBoundary = new StudyPresenter(
+                viewManagerModel,
+                studyViewModel,
+                homeViewModel
+        );
+        final StudyInputBoundary studyInputBoundary = new StudyInteractor(studyOutputBoundary);
+        studyController  = new StudyController(studyInputBoundary);
+        studyView.setStudyController(studyController);
         return this;
     }
 
@@ -163,7 +176,7 @@ public class AppBuilder {
 
         // executes the home use case and refreshes the home so we can
         // see pre-existing card sets from the DAO
-        homeController.execute();
+        homeController.refresh();
 
         // app initially shows the home view
         viewManagerModel.setState(homeViewModel.getViewName());
