@@ -39,6 +39,15 @@ public class StudyView extends ParentView implements PropertyChangeListener {
     private final JButton flipButton = new JButton("flip");
     private final JButton speakButton = new JButton("speak");
 
+    // keyboard shortcuts for the buttons
+    private final String shuffleKey = "s";
+    private final String trackKey = "h";
+    private final String undoKey = "slash";
+    private final String leftKey = "left";
+    private final String rightKey = "right";
+    private final String flipKey = "up/down";
+    private final String speakKey = "a";
+
     public StudyView(StudyViewModel svm) {
         studyViewModel = svm;
         studyViewModel.addPropertyChangeListener(this);
@@ -140,20 +149,24 @@ public class StudyView extends ParentView implements PropertyChangeListener {
         rightButton.addActionListener(e -> fuckingMoveToNext());
         flipButton.addActionListener(e -> studyController.flip());
         speakButton.addActionListener(e -> TextToSpeech.speak(visibleText.getText()));
+
+        undoButton.setToolTipText(String.format("[%s] undo", undoKey));
+        flipButton.setToolTipText(String.format("[%s] flip the current card", flipKey));
+        speakButton.setToolTipText(String.format("[%s] speak the visible text", speakKey));
     }
 
     private void configureKeyboardButtonActions() {
         final InputMap inputMap = buttonPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         final ActionMap actionMap = buttonPanel.getActionMap();
 
-        inputMap.put(KeyStroke.getKeyStroke("S"), "shuffle");
-        inputMap.put(KeyStroke.getKeyStroke("U"), "undo");
-        inputMap.put(KeyStroke.getKeyStroke("LEFT"), "prev");
-        inputMap.put(KeyStroke.getKeyStroke("RIGHT"), "next");
+        inputMap.put(KeyStroke.getKeyStroke(shuffleKey.toUpperCase()), "shuffle");
+        inputMap.put(KeyStroke.getKeyStroke(undoKey.toUpperCase()), "undo");
+        inputMap.put(KeyStroke.getKeyStroke(leftKey.toUpperCase()), "prev");
+        inputMap.put(KeyStroke.getKeyStroke(rightKey.toUpperCase()), "next");
         inputMap.put(KeyStroke.getKeyStroke("UP"), "flip");
         inputMap.put(KeyStroke.getKeyStroke("DOWN"), "flip");
-        inputMap.put(KeyStroke.getKeyStroke("H"), "enableSorting");
-        inputMap.put(KeyStroke.getKeyStroke("T"), "talk");
+        inputMap.put(KeyStroke.getKeyStroke(trackKey.toUpperCase()), "enableSorting");
+        inputMap.put(KeyStroke.getKeyStroke(speakKey.toUpperCase()), "talk");
 
         actionMap.put("prev", new AbstractAction() {
             @Override
@@ -171,7 +184,7 @@ public class StudyView extends ParentView implements PropertyChangeListener {
         actionMap.put("undo", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                undo();
+                if (studyViewModel.getState().getSortingOn()) undo();
             }
         });
         actionMap.put("next", new AbstractAction() {
@@ -227,23 +240,32 @@ public class StudyView extends ParentView implements PropertyChangeListener {
     private void refreshButtonPanel() {
         final StudyState studyState = studyViewModel.getState();
         final int currentIndex = studyState.getCurrentIndex();
+        final boolean shufflingOn = studyState.getShufflingOn();
+        final boolean sortingOn = studyState.getSortingOn();
+
         // updates the dynamic buttons
-        if (studyState.getSortingOn()) {
+        if (sortingOn) {
             undoButton.setVisible(true);
             leftButton.setEnabled(true);
             rightButton.setEnabled(true);
             leftButton.setText("unknown");
             rightButton.setText("known");
+            leftButton.setToolTipText(String.format("[%s] still learning", leftKey));
+            rightButton.setToolTipText(String.format("[%s] know", rightKey));
         } else {
             undoButton.setVisible(false);
             leftButton.setEnabled(currentIndex != 0);
             rightButton.setEnabled(currentIndex != studyState.getCurrentSize());
             leftButton.setText("prev");
             rightButton.setText("next");
+            leftButton.setToolTipText(String.format("[%s] move to previous card", leftKey));
+            rightButton.setToolTipText(String.format("[%s] move to next card", rightKey));
         }
         // updates the static buttons
-        shuffleButton.setText(studyState.getShufflingOn() ? "unshuffle" : "shuffle");
-        trackButton.setText(studyState.getSortingOn() ? "untrack" : "track");
+        shuffleButton.setText(shufflingOn ? "unshuffle" : "shuffle");
+        shuffleButton.setToolTipText(String.format("[%s] %s", shuffleKey, shufflingOn ? "unshuffle" : "shuffle"));
+        trackButton.setText(sortingOn ? "untrack" : "track");
+        trackButton.setToolTipText(String.format("[%s] %s", trackKey, sortingOn ? "disable card tracking" : "enable card tracking"));
         undoButton.setEnabled(currentIndex != 0);
     }
 

@@ -1,7 +1,7 @@
 package app;
 
-//import data_access.FileDataAccessObject;
-import data_access.InMemoryDataAccessObject;
+import data_access.FileDataAccessObject;
+//import data_access.InMemoryDataAccessObject;
 import entities.CardSetFactory;
 import interface_adapters.ThemeManager;
 import interface_adapters.ViewManagerModel;
@@ -50,7 +50,7 @@ public class AppBuilder {
     private StudyView studyView;
     private StudyViewModel studyViewModel;
 
-    private final InMemoryDataAccessObject dataAO = new InMemoryDataAccessObject();
+    private final FileDataAccessObject dataAO = new FileDataAccessObject();
     private final CardSetFactory cardSetFactory = new CardSetFactory();
 
     public AppBuilder() {
@@ -66,6 +66,7 @@ public class AppBuilder {
         UIManager.put("OptionPane.messageFont", FONT);
         UIManager.put("OptionPane.buttonFont", FONT);
         ThemeManager.applyInitialTheme();
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
         cardPanel.setLayout(cardLayout);
     }
 
