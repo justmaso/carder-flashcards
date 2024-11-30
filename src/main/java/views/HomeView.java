@@ -30,18 +30,23 @@ public class HomeView extends ParentView implements PropertyChangeListener {
 
         // refreshes the home view
         addHomeListener(e -> {
-            homeController.execute();
+            homeController.refresh();
         });
 
         addAboutListener(e -> {
-            JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(this,
                     "carder flashcards is a simple studying app built in java\n");
         });
     }
 
     private JPanel getCardSetsPanel() {
         final JPanel flashCardsPanel = new JPanel();
-        flashCardsPanel.setLayout(new BoxLayout(flashCardsPanel, BoxLayout.Y_AXIS));
+        flashCardsPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         final HomeState homeState = homeViewModel.getState();
         if (homeState.getIDs().isEmpty()) {
@@ -55,15 +60,16 @@ public class HomeView extends ParentView implements PropertyChangeListener {
         final List<Integer> IDs = homeState.getIDs();
         final List<String> titles = homeState.getTitles();
         final List<String> descriptions = homeState.getDescriptions();
+        final List<List<List<String>>> cards = homeState.getCards();
 
         for (int k = 0; k < IDs.size(); k++) {
-            final JPanel row = new JPanel(new BorderLayout());
+            final JPanel row = new JPanel(new FlowLayout(FlowLayout.LEADING));
 
             // add the labels
-            final JPanel labelsPanel = new JPanel();
-            labelsPanel.add(new JLabel(String.format("[id=%s]", IDs.get(k))));
-            labelsPanel.add(new JLabel(String.format("%s:", titles.get(k))));
-            labelsPanel.add(new JLabel(String.format("%s", descriptions.get(k))));
+            final JLabel infoLabel = new JLabel(String.format(
+                    "[id=%s] %s: %s",
+                    IDs.get(k), titles.get(k), descriptions.get(k)
+            ));
 
             // create the buttons
             final JPanel buttonsPanel = new JPanel();
@@ -76,14 +82,18 @@ public class HomeView extends ParentView implements PropertyChangeListener {
             buttonsPanel.add(editButton);
             buttonsPanel.add(deleteButton);
 
-            row.add(labelsPanel, BorderLayout.WEST);
-            row.add(buttonsPanel, BorderLayout.EAST);
-
+//            row.add(infoLabel, BorderLayout.EAST);
+//            row.add(buttonsPanel, BorderLayout.WEST);
+            row.add(buttonsPanel);
+            row.add(infoLabel);
             // add functionality to the buttons
             int finalK = k;
             studyButton.addActionListener(e -> {
-                JOptionPane.showMessageDialog(this,
-                        String.format("studying [%d], described as [%s]", IDs.get(finalK), descriptions.get(finalK)));
+                homeController.switchToStudyView(
+                        titles.get(finalK),
+                        descriptions.get(finalK),
+                        cards.get(finalK)
+                );
             });
             editButton.addActionListener(e -> {
                 JOptionPane.showMessageDialog(this,
@@ -97,11 +107,12 @@ public class HomeView extends ParentView implements PropertyChangeListener {
 
                     // updates the cards available after deletion
                     // automatically refreshes our home view
-                    homeController.execute();
+                    homeController.refresh();
                 }
             });
-
-            flashCardsPanel.add(row);
+            row.setMinimumSize(flashCardsPanel.getPreferredSize());
+            flashCardsPanel.add(row, gbc);
+            gbc.gridy++;
         }
         return flashCardsPanel;
     }
@@ -114,6 +125,8 @@ public class HomeView extends ParentView implements PropertyChangeListener {
                 homeController.switchToCreateView();
             }
         });
+        createNewSetButton.setToolTipText("create new set");
+
         createPanel.add(createNewSetButton);
         return createPanel;
     }

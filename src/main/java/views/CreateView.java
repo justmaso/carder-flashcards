@@ -6,6 +6,7 @@ import interface_adapters.create.CreateViewModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class CreateView extends ParentView implements PropertyChangeListener {
     private CreateController createController;
     private final JPanel creationPanel = new JPanel();
     private final JScrollPane creationScrollPane = new JScrollPane(creationPanel);
-    private final JTextField titleField = new JTextField(27);
-    private final JTextField descriptionField = new JTextField(27);
+    private final JTextField titleField = new JTextField(20);
+    private final JTextField descriptionField = new JTextField(20);
     private int numCreationRows;
 
     public CreateView(CreateViewModel cvm) {
@@ -61,7 +62,7 @@ public class CreateView extends ParentView implements PropertyChangeListener {
     }
 
     /**
-     * adds a creation row to the create view panel.
+     * Adds a creation row to the create view panel.
      */
     private void addCreationRow() {
         numCreationRows++;
@@ -69,15 +70,61 @@ public class CreateView extends ParentView implements PropertyChangeListener {
         final JPanel creationRow = new JPanel();
         final JButton deleteButton = getDeleteButton(creationRow);
 
+        final JTextArea frontTextArea = getWrapTextArea();
+        final JTextArea backTextArea = getWrapTextArea();
+
+
+        final InputMap frontTextInputMap = frontTextArea.getInputMap(JComponent.WHEN_FOCUSED);
+        frontTextInputMap.put(KeyStroke.getKeyStroke("TAB"), "focusNext");
+        frontTextInputMap.put(KeyStroke.getKeyStroke("shift TAB"), "focusPrev");
+
+        final ActionMap frontTextActionMap = frontTextArea.getActionMap();
+        frontTextActionMap.put("focusPrev", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().focusPreviousComponent();
+            }
+        });
+        frontTextActionMap.put("focusNext", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backTextArea.requestFocusInWindow();
+            }
+        });
+
+        final InputMap backTextInputMap = backTextArea.getInputMap(JComponent.WHEN_FOCUSED);
+        backTextInputMap.put(KeyStroke.getKeyStroke("TAB"), "focusNext");
+        backTextInputMap.put(KeyStroke.getKeyStroke("shift TAB"), "focusPrev");
+
+        final ActionMap backTextActionMap = backTextArea.getActionMap();
+        backTextActionMap.put("focusPrev", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frontTextArea.requestFocusInWindow();
+            }
+        });
+        backTextActionMap.put("focusNext", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteButton.requestFocusInWindow();
+            }
+        });
+
         creationRow.add(new JLabel("front:"));
-        creationRow.add(new JTextField(26));
+        creationRow.add(frontTextArea);
         creationRow.add(new JLabel("back:"));
-        creationRow.add(new JTextField(26));
+        creationRow.add(backTextArea);
         creationRow.add(deleteButton);
 
         creationRow.setMaximumSize(creationRow.getPreferredSize());
-
         creationPanel.add(creationRow);
+    }
+
+    private JTextArea getWrapTextArea() {
+        final JTextArea textArea = new JTextArea(1, 23);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        return textArea;
     }
 
     private JButton getDeleteButton(JPanel creationRow) {
@@ -110,35 +157,42 @@ public class CreateView extends ParentView implements PropertyChangeListener {
             repaint();
         });
         createButton.addActionListener(e -> {
-            List<String> fronts = new ArrayList<>();
-            List<String> backs = new ArrayList<>();
-
-            Component[] components = creationPanel.getComponents();
-            // loop over the creation panels
-            for (int k = 2; k < components.length; k++) {
-                JPanel row = (JPanel) components[k];
-                Component[] rowComponents = row.getComponents();
-
-                fronts.add(((JTextField) rowComponents[1]).getText());
-                backs.add(((JTextField) rowComponents[3]).getText());
-            }
-
-            createController.execute(
+            createController.create(
                     titleField.getText(),
                     descriptionField.getText(),
-                    fronts,
-                    backs
+                    getUserCards()
             );
         });
-        // createAndStudyButton.addActionListener(e -> {
-        //     JOptionPane.showMessageDialog(this, "you just pressed create + study in create view");
-        // });
+        createAndStudyButton.addActionListener(e -> {
+            createController.createAndStudy(
+                    titleField.getText(),
+                    descriptionField.getText(),
+                    getUserCards()
+            );
+        });
 
         actionPanel.add(addCardButton);
         actionPanel.add(createButton);
-        // actionPanel.add(createAndStudyButton);
+        actionPanel.add(createAndStudyButton);
 
         return actionPanel;
+    }
+
+    private List<List<String>> getUserCards() {
+        List<List<String>> cards = new ArrayList<>();
+
+        Component[] components = creationPanel.getComponents();
+        // loop over the creation panels
+        for (int k = 2; k < components.length; k++) {
+            JPanel row = (JPanel) components[k];
+            Component[] rowComponents = row.getComponents();
+
+            cards.add(List.of(
+                    ((JTextArea) rowComponents[1]).getText(),
+                    ((JTextArea) rowComponents[3]).getText()
+            ));
+        }
+        return cards;
     }
 
     public void setCreateController(CreateController createController) {
