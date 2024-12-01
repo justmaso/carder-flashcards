@@ -3,7 +3,9 @@ package use_cases.create;
 import entities.CardSet;
 import entities.CardSetFactory;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreateInteractor implements CreateInputBoundary {
     private final CreateDataAccessInterface createDAO;
@@ -33,13 +35,9 @@ public class CreateInteractor implements CreateInputBoundary {
     private CreateOutputData validateCreateInputData(CreateInputData createInputData) {
         final String title = createInputData.getTitle().strip();
         final String description = createInputData.getDescription().strip();
-        final List<List<String>> cards = createInputData.getCards();
-
-        // trim the front and back text whitespace
-        for (int k = 0; k < cards.size(); k++) {
-            final List<String> card = cards.get(k);
-            cards.set(k, List.of(card.getFirst().strip(), card.getLast().strip()));
-        }
+        final List<List<String>> cards = createInputData.getCards().stream()
+                .map(card -> List.of(card.getFirst().strip(), card.getLast().strip()))
+                .toList();
 
         // validate the title and description
         if (title.isBlank() || description.isBlank()) {
