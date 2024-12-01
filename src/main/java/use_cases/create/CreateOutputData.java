@@ -9,16 +9,14 @@ public class CreateOutputData {
     private final int ID;
     private final String title;
     private final String description;
-    private final List<String> fronts;
-    private final List<String> backs;
+    private final List<List<String>> cards;
 
     public CreateOutputData(int ID, String title, String description,
-                            List<String> fronts, List<String> backs) {
+                            List<List<String>> cards) {
         this.ID = ID;
         this.title = title;
         this.description = description;
-        this.fronts = fronts;
-        this.backs = backs;
+        this.cards = cards;
     }
 
     public int getID() {
@@ -33,11 +31,5 @@ public class CreateOutputData {
         return description;
     }
 
-    public List<String> getFronts() {
-        return fronts;
-    }
-
-    public List<String> getBacks() {
-        return backs;
-    }
+    public List<List<String>> getCards() { return cards; }
 }

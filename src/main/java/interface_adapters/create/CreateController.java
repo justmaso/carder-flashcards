@@ -16,12 +16,22 @@ public class CreateController {
      * Executes the creation use case for card sets.
      * @param title the set's title.
      * @param description the set's description.
-     * @param fronts the set's front text(s).
-     * @param backs the set's back text(s).
+     * @param cards the set's cards (text).
      */
-    public void execute(String title, String description,
-                        List<String> fronts, List<String> backs) {
-        createInteractor.execute(new CreateInputData(title, description, fronts, backs));
+    public void create(String title, String description,
+                       List<List<String>> cards) {
+        createInteractor.create(new CreateInputData(title, description, cards));
+    }
+
+    /**
+     * Executes the create and study use case.
+     * @param title the title of the set to create and study.
+     * @param description the description of the set to create and study.
+     * @param cards the cards of the set to create and study.
+     */
+    public void createAndStudy(String title, String description,
+                               List<List<String>> cards) {
+        createInteractor.createAndStudy(new CreateInputData(title, description, cards));
     }
 
     /**

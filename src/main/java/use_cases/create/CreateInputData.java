@@ -8,15 +8,13 @@ import java.util.List;
 public class CreateInputData {
     private final String title;
     private final String description;
-    private final List<String> fronts;
-    private final List<String> backs;
+    private final List<List<String>> cards;
 
     public CreateInputData(String title, String description,
-                           List<String> fronts, List<String> backs) {
+                           List<List<String>> cards) {
         this.title = title;
         this.description = description;
-        this.fronts = fronts;
-        this.backs = backs;
+        this.cards = cards;
     }
 
     public String getTitle() {
@@ -27,11 +25,7 @@ public class CreateInputData {
         return description;
     }
 
-    public List<String> getFronts() {
-        return fronts;
-    }
-
-    public List<String> getBacks() {
-        return backs;
+    public List<List<String>> getCards() {
+        return cards;
     }
 }
