@@ -27,7 +27,7 @@ public class Navigation extends JPanel {
         add(aboutButton);
         add(themeButton);
 
-        themeButton.setToolTipText("toggle the theme");
+        themeButton.setToolTipText("toggle theme");
 
         themeButton.addActionListener(e -> {
             ThemeManager.toggleTheme();
