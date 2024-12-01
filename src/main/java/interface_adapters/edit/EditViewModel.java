@@ -5,9 +5,9 @@ import interface_adapters.ViewModel;
 /**
  * The view model for the edit view.
  */
-public class EditViewModel extends ViewModel<String> {
+public class EditViewModel extends ViewModel<EditState> {
     public EditViewModel() {
         super("edit");
-        setState("");
+        setState(new EditState());
     }
 }
