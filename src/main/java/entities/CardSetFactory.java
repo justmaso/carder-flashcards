@@ -11,16 +11,32 @@ public class CardSetFactory {
      * Creates a new CardSet.
      * @param title the title of the set.
      * @param description the description of the set.
-     * @param fronts the front text for this set.
-     * @param backs the back text for this set.
+     * @param cards the cards of this set.
      * @return the new card set.
      */
     public CardSet create(String title, String description,
-                          List<String> fronts, List<String> backs) {
-        final List<Card> cards = new ArrayList<>();
-        for (int k = 0; k < fronts.size(); k++) {
-            cards.add(new Card(fronts.get(k), backs.get(k)));
+                          List<List<String>> cards) {
+        return new CardSet(title, description, getTranslatedCards(cards));
+    }
+
+    /**
+     * Creates a new CardSet.
+     * @param ID the ID of the set.
+     * @param title the title of the set.
+     * @param description the description of the set.
+     * @param cards the cards of this set.
+     * @return the new card set.
+     */
+    public CardSet create(int ID, String title, String description,
+                          List<List<String>> cards) {
+        return new CardSet(ID, title, description, getTranslatedCards(cards));
+    }
+
+    private List<Card> getTranslatedCards(List<List<String>> cards) {
+        final List<Card> translatedCards = new ArrayList<>();
+        for (List<String> pair : cards) {
+            translatedCards.add(new Card(pair.get(0), pair.get(1)));
         }
-        return new CardSet(title, description, cards);
+        return translatedCards;
     }
 }

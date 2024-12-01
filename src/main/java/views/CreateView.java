@@ -32,6 +32,35 @@ public class CreateView extends ParentView implements PropertyChangeListener {
         add(creationScrollPane, BorderLayout.CENTER);
         add(actionPanel, BorderLayout.SOUTH);
 
+        descriptionField.setFocusTraversalKeysEnabled(false);
+        final InputMap descriptionInputMap = descriptionField.getInputMap(JComponent.WHEN_FOCUSED);
+        descriptionInputMap.put(KeyStroke.getKeyStroke("shift TAB"), "focusPrev");
+        descriptionInputMap.put(KeyStroke.getKeyStroke("TAB"), "focusNext");
+
+        final ActionMap descriptionActionMap = descriptionField.getActionMap();
+        descriptionActionMap.put("focusPrev", new AbstractAction() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               KeyboardFocusManager.getCurrentKeyboardFocusManager().focusPreviousComponent();
+           }
+        });
+        descriptionActionMap.put("focusNext", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JPanel topRow = (JPanel) creationPanel.getComponent(2);
+                for (Component component : topRow.getComponents()) {
+                    if (component instanceof FlaggedJTextArea tempTextArea) {
+                        // check if this is the frontTextArea
+                        if (tempTextArea.getFlag()) {
+                            tempTextArea.requestFocusInWindow();
+                            return;
+                        }
+                    }
+                }
+            }
+        });
+
+
         addHomeListener(e -> {
             createController.switchToHomeView();
         });
@@ -70,19 +99,21 @@ public class CreateView extends ParentView implements PropertyChangeListener {
         final JPanel creationRow = new JPanel();
         final JButton deleteButton = getDeleteButton(creationRow);
 
-        final JTextArea frontTextArea = getWrapTextArea();
-        final JTextArea backTextArea = getWrapTextArea();
+        final FlaggedJTextArea frontTextArea = new FlaggedJTextArea(true);
+        final FlaggedJTextArea backTextArea = new FlaggedJTextArea(false);
 
 
         final InputMap frontTextInputMap = frontTextArea.getInputMap(JComponent.WHEN_FOCUSED);
-        frontTextInputMap.put(KeyStroke.getKeyStroke("TAB"), "focusNext");
         frontTextInputMap.put(KeyStroke.getKeyStroke("shift TAB"), "focusPrev");
+        frontTextInputMap.put(KeyStroke.getKeyStroke("TAB"), "focusNext");
 
         final ActionMap frontTextActionMap = frontTextArea.getActionMap();
         frontTextActionMap.put("focusPrev", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                backTextArea.setFocusable(false);
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().focusPreviousComponent();
+                backTextArea.setFocusable(true);
             }
         });
         frontTextActionMap.put("focusNext", new AbstractAction() {
@@ -93,8 +124,8 @@ public class CreateView extends ParentView implements PropertyChangeListener {
         });
 
         final InputMap backTextInputMap = backTextArea.getInputMap(JComponent.WHEN_FOCUSED);
-        backTextInputMap.put(KeyStroke.getKeyStroke("TAB"), "focusNext");
         backTextInputMap.put(KeyStroke.getKeyStroke("shift TAB"), "focusPrev");
+        backTextInputMap.put(KeyStroke.getKeyStroke("TAB"), "focusNext");
 
         final ActionMap backTextActionMap = backTextArea.getActionMap();
         backTextActionMap.put("focusPrev", new AbstractAction() {
@@ -107,6 +138,25 @@ public class CreateView extends ParentView implements PropertyChangeListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteButton.requestFocusInWindow();
+            }
+        });
+
+        deleteButton.setFocusTraversalKeysEnabled(false);
+        final InputMap deleteInputMap = deleteButton.getInputMap(JComponent.WHEN_FOCUSED);
+        deleteInputMap.put(KeyStroke.getKeyStroke("shift TAB"), "focusPrev");
+        deleteInputMap.put(KeyStroke.getKeyStroke("TAB"), "focusNext");
+
+        final ActionMap deleteActionMap = deleteButton.getActionMap();
+        deleteActionMap.put("focusPrev", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backTextArea.requestFocusInWindow();
+            }
+        });
+        deleteActionMap.put("focusNext", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().focusNextComponent();
             }
         });
 
@@ -155,6 +205,10 @@ public class CreateView extends ParentView implements PropertyChangeListener {
             addCreationRow();
             revalidate();
             repaint();
+            SwingUtilities.invokeLater(() -> {
+                final JScrollBar scrollBar = creationScrollPane.getVerticalScrollBar();
+                scrollBar.setValue(scrollBar.getMaximum());
+            });
         });
         createButton.addActionListener(e -> {
             createController.create(
@@ -184,13 +238,20 @@ public class CreateView extends ParentView implements PropertyChangeListener {
         Component[] components = creationPanel.getComponents();
         // loop over the creation panels
         for (int k = 2; k < components.length; k++) {
-            JPanel row = (JPanel) components[k];
-            Component[] rowComponents = row.getComponents();
+            String frontText = null;
+            String backText = null;
 
-            cards.add(List.of(
-                    ((JTextArea) rowComponents[1]).getText(),
-                    ((JTextArea) rowComponents[3]).getText()
-            ));
+            for (Component component : ((JPanel) components[k]).getComponents()) {
+                if (component instanceof FlaggedJTextArea textArea) {
+                    if (textArea.getFlag()) {
+                        frontText = textArea.getText();
+                    } else {
+                        backText = textArea.getText();
+                    }
+                }
+            }
+
+            cards.add(List.of(frontText, backText));
         }
         return cards;
     }
