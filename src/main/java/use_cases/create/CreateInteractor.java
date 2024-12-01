@@ -19,45 +19,58 @@ public class CreateInteractor implements CreateInputBoundary {
     }
 
     @Override
-    public void execute(CreateInputData createInputData) {
-        final String title = createInputData.getTitle();
-        final String description = createInputData.getDescription();
-        final List<String> fronts = createInputData.getFronts();
-        final List<String> backs = createInputData.getBacks();
+    public void create(CreateInputData createInputData) {
+        final CreateOutputData createOutputData = validateCreateInputData(createInputData);
+        if (createOutputData != null) createPresenter.createSuccessful(createOutputData);
+    }
+
+    @Override
+    public void createAndStudy(CreateInputData createInputData) {
+        final CreateOutputData createAndStudyOutputData = validateCreateInputData(createInputData);
+        if (createAndStudyOutputData != null) createPresenter.switchToStudyView(createAndStudyOutputData);
+    }
+
+    private CreateOutputData validateCreateInputData(CreateInputData createInputData) {
+        final String title = createInputData.getTitle().strip();
+        final String description = createInputData.getDescription().strip();
+        final List<List<String>> cards = createInputData.getCards();
+
+        // trim the front and back text whitespace
+        for (int k = 0; k < cards.size(); k++) {
+            final List<String> card = cards.get(k);
+            cards.set(k, List.of(card.getFirst().strip(), card.getLast().strip()));
+        }
 
         // validate the title and description
-        if (title.isEmpty() || description.isEmpty()) {
+        if (title.isBlank() || description.isBlank()) {
             createPresenter.prepareFailView("title/description missing\n" +
                     "please add a title/description");
-            return;
+            return null;
         } else if (createDAO.setExistsByTitle(title)) {
             createPresenter.prepareFailView("title already exists.\n" +
                     "please choose another title");
-            return;
+            return null;
         }
 
         // validate the cards
-        for (int k = 0; k < fronts.size(); k++) {
-            if (fronts.get(k).isEmpty() || backs.get(k).isEmpty()) {
+        for (List<String> pairs : cards) {
+            if (pairs.getFirst().isBlank() || pairs.getLast().isBlank()) {
                 createPresenter.prepareFailView("one or more cards are not filled.\n" +
                         "please fill all cards");
-                return;
+                return null;
             }
         }
 
         // all input has been validated, go ahead and create the set
-        final CardSet cardSet = cardSetFactory.create(title, description, fronts, backs);
+        final CardSet cardSet = cardSetFactory.create(title, description, cards);
         createDAO.saveSet(cardSet);
 
-        final CreateOutputData createOutputData = new CreateOutputData(
+        return new CreateOutputData(
                 cardSet.getID(),
-                cardSet.getTitle(),
-                cardSet.getDescription(),
-                cardSet.getFronts(),
-                cardSet.getBacks()
+                title,
+                description,
+                cards
         );
-        // clears the create view and switches to home
-        createPresenter.prepareSuccessView(createOutputData);
     }
 
     @Override

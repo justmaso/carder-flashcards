@@ -1,17 +1,14 @@
-package use_cases.create;
+package use_cases.study;
 
 import java.util.List;
 
-/**
- * Input data for the creation use case.
- */
-public class CreateInputData {
+public class StudyInputData {
     private final String title;
     private final String description;
     private final List<List<String>> cards;
 
-    public CreateInputData(String title, String description,
-                           List<List<String>> cards) {
+    public StudyInputData(String title, String description,
+                          List<List<String>> cards) {
         this.title = title;
         this.description = description;
         this.cards = cards;
@@ -27,5 +24,12 @@ public class CreateInputData {
 
     public List<List<String>> getCards() {
         return cards;
+    }
+
+    public String toString() {
+        return String.format("title=%s\ndesc=%s\ncards=%s",
+                title,
+                description,
+                cards);
     }
 }
