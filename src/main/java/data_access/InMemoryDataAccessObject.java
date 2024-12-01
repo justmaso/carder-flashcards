@@ -6,7 +6,6 @@ import entities.CardSetFactory;
 import use_cases.create.CreateDataAccessInterface;
 import use_cases.edit.EditDataAccessInterface;
 import use_cases.home.HomeDataAccessInterface;
-import use_cases.study.StudyDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +16,14 @@ import java.util.concurrent.TimeUnit;
  * This implementation does NOT keep data persistently (like a database would).
  */
 public class InMemoryDataAccessObject implements HomeDataAccessInterface,
-        CreateDataAccessInterface, EditDataAccessInterface, StudyDataAccessInterface {
+        CreateDataAccessInterface, EditDataAccessInterface {
     private final List<CardSet> cardSets = new ArrayList<>();
 
     public InMemoryDataAccessObject() {
+        // addPlaceHolderCards();
+    }
+
+    private void addPlaceHolderCards() {
         // in-memory testing data on app launch
         final CardSetFactory cardSetFactory = new CardSetFactory();
         final List<String> titles = List.of(
@@ -54,6 +57,7 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
         for (int k = 0; k < titles.size(); k++) {
             String title = titles.get(k);
             String description = descriptions.get(k);
+            List<List<String>> courseCards = new ArrayList<>();
             List<String> courseFronts = fronts.stream()
                     .map(front -> String.format("%s %s", title, front))
                     .toList();
@@ -61,11 +65,15 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
                     .map(back -> String.format("%s %s", title, back))
                     .toList();
 
+            for (int i = 0; i < courseFronts.size(); i++) {
+                List<String> card = List.of(courseFronts.get(i), courseBacks.get(i));
+                courseCards.add(card);
+            }
+
             cardSets.add(cardSetFactory.create(
                     title,
                     description,
-                    courseFronts,
-                    courseBacks
+                    courseCards
             ));
 
             // prevents the IDs from being identical
@@ -86,6 +94,24 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
     }
 
     @Override
+    public Integer getIDByTitle(String cardSetTitle) {
+        for (CardSet cardSet : cardSets) {
+            if (cardSetTitle.equals(cardSet.getTitle())) return cardSet.getID();
+        }
+        return null;
+    }
+
+    @Override
+    public void updateSet(CardSet newSet) {
+        for (int k = 0; k < cardSets.size(); k++) {
+            CardSet oldSet = cardSets.get(k);
+            if (oldSet.getID() == newSet.getID()) {
+                cardSets.set(k, newSet);
+            }
+        }
+    }
+
+    @Override
     public void saveSet(CardSet cardSet) {
         cardSets.add(cardSet);
     }
@@ -102,18 +128,6 @@ public class InMemoryDataAccessObject implements HomeDataAccessInterface,
             if (cardSet.getTitle().equals(cardSetTitle)) {
                 cardSets.remove(k);
                 return;
-            }
-            k++;
-        }
-    }
-
-    @Override
-    public void updateSet(CardSet newSet) {
-        final int setID = newSet.getID();
-        int k = 0;
-        for (CardSet cardSet : cardSets) {
-            if (cardSet.getID() == setID) {
-                cardSets.set(k, newSet);
             }
             k++;
         }

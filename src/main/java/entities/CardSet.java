@@ -39,6 +39,14 @@ public class CardSet {
         shuffledCards = null;
     }
 
+    public CardSet(int ID, String title, String description, List<Card> cards) {
+        this.ID = ID;
+        this.title = title;
+        this.description = description;
+        defaultCards = new ArrayList<>(cards);
+        shuffledCards = null;
+    }
+
     /**
      * Returns the current card of this card set.
      * @return the current card.
@@ -169,5 +177,16 @@ public class CardSet {
      */
     private int getUniqueID() {
         return (int) (System.currentTimeMillis() & 0xfffffff);
+    }
+
+    public List<List<String>> getCards() {
+        List<List<String>> cards = new ArrayList<>();
+        for (Card card : defaultCards) {
+            cards.add(List.of(
+                    card.getFront(),
+                    card.getBack()
+            ));
+        }
+        return cards;
     }
 }
