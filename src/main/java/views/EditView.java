@@ -164,6 +164,11 @@ public class EditView extends ParentView implements PropertyChangeListener {
             cardDataPanel.add(deleteButton);
             cardDataPanel.setMaximumSize(cardDataPanel.getPreferredSize());
             oldCardSetsPanel.add(cardDataPanel);
+
+            // updates the scroll bar to the topmost position
+            SwingUtilities.invokeLater(() -> {
+                editScrollPane.getVerticalScrollBar().setValue(0);
+            });
         }
     }
 
