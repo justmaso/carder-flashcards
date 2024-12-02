@@ -14,6 +14,7 @@ import interface_adapters.study.StudyController;
 import interface_adapters.study.StudyState;
 import interface_adapters.study.StudyViewModel;
 import interface_adapters.TextToSpeech;
+import org.w3c.dom.Text;
 
 /**
  * A class for the study view.
@@ -72,12 +73,16 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
         JButton previousBtn = new JButton("Previous");
         JButton shuffleBtn = new JButton("Shuffle");
         JButton unshuffleBtn = new JButton("Unshuffle");
+        JButton frontSpeech = new JButton("Speak Front");
+        JButton backSpeech = new JButton("Speak Back");
 
         // Add buttons to move through the flashcard set.
         buttonPanel.add(previousBtn);
         buttonPanel.add(nextBtn);
         buttonPanel.add(shuffleBtn);
         buttonPanel.add(unshuffleBtn);
+        buttonPanel.add(frontSpeech);
+        buttonPanel.add(backSpeech);
 
         // revert the cards to the original order, or move back to the start of the set
         unshuffleBtn.addActionListener(arg0 -> {
@@ -86,6 +91,14 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
             currentCard = 1;
             cardLayoutCards.show(cardsPanel, "" + currentCard);
             cardLayoutNumbers.show(numberPanel, "" + currentCard);
+        });
+
+        frontSpeech.addActionListener(arg0 -> {
+            TextToSpeech.speak(fronts.get(currentCard - 1));
+        });
+
+        backSpeech.addActionListener(arg -> {
+            TextToSpeech.speak(backs.get(currentCard - 1));
         });
 
         // add 'next' button in ActionListener
