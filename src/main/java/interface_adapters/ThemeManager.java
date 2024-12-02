@@ -1,7 +1,8 @@
 package interface_adapters;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +12,8 @@ import java.awt.*;
  */
 public class ThemeManager {
     private static boolean isDarkTheme = true;
-    private static final FlatMacDarkLaf DARK_LAF = new FlatMacDarkLaf();
-    private static final FlatMacLightLaf LIGHT_LAF = new FlatMacLightLaf();
+    private static final FlatLaf DARK_LAF = new FlatDarkLaf();
+    private static final FlatLaf LIGHT_LAF = new FlatLightLaf();
 
     /**
      * Applies the initial theme to the app.
