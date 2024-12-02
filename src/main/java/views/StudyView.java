@@ -63,17 +63,7 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
         List<String> backs = state.getBacks();
         int size = fronts.size();
 
-        for (int i = 0; i < size; i++) {
-            String curr = String.valueOf(i + 1);
-            JPanel cl = new CardPanel(fronts.get(i), backs.get(i));
-            cardsPanel.add(cl, curr);
-            JLabel number = new JLabel(curr + " / " + size);
-            numberPanel.add(number, curr);
-            List<String> currentCardsText = new ArrayList<>();
-            currentCardsText.add(fronts.get(i));
-            currentCardsText.add(backs.get(i));
-            shuffledCards.add(currentCardsText);
-        }
+        loadDefaultCards(size, fronts, backs, cardsPanel, numberPanel);
         // Create a JPanel for the navigation buttons
         JPanel buttonPanel = new JPanel();
 
@@ -81,11 +71,20 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
         JButton nextBtn = new JButton("Next");
         JButton previousBtn = new JButton("Previous");
         JButton shuffleBtn = new JButton("Shuffle");
+        JButton unshuffleBtn = new JButton("Unshuffle");
 
         // Add buttons to move through the flashcard set.
         buttonPanel.add(previousBtn);
         buttonPanel.add(nextBtn);
         buttonPanel.add(shuffleBtn);
+        buttonPanel.add(unshuffleBtn);
+
+        unshuffleBtn.addActionListener(arg0 -> {
+            loadDefaultCards(size, fronts, backs, cardsPanel, numberPanel);
+            currentCard = 1;
+            cardLayoutCards.show(cardsPanel, "" + currentCard);
+            cardLayoutNumbers.show(numberPanel, "" + currentCard);
+        });
 
         // add 'next' button in ActionListener
         nextBtn.addActionListener(arg0 -> {
@@ -139,6 +138,21 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
 
         mainPanel.setPreferredSize(new Dimension(650,350));
         return mainPanel;
+    }
+
+    private void loadDefaultCards(int size, List<String> fronts, List<String> backs,
+                                  JPanel cardsPanel, JPanel numberPanel) {
+        for (int i = 0; i < size; i++) {
+            String curr = String.valueOf(i + 1);
+            JPanel cl = new CardPanel(fronts.get(i), backs.get(i));
+            cardsPanel.add(cl, curr);
+            JLabel number = new JLabel(curr + " / " + size);
+            numberPanel.add(number, curr);
+            List<String> currentCardsText = new ArrayList<>();
+            currentCardsText.add(fronts.get(i));
+            currentCardsText.add(backs.get(i));
+            shuffledCards.add(currentCardsText);
+        }
     }
 
     public void actionPerformed(ActionEvent evt) {
