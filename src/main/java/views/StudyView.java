@@ -87,7 +87,7 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
         // revert the cards to the original order, or move back to the start of the set
         unshuffleBtn.addActionListener(arg0 -> {
             loadDefaultCards(size, fronts, backs, cardsPanel, numberPanel);
-            // go back to the start
+            // go back to the start.
             currentCard = 1;
             cardLayoutCards.show(cardsPanel, "" + currentCard);
             cardLayoutNumbers.show(numberPanel, "" + currentCard);
