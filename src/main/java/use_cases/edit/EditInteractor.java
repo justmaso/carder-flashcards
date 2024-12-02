@@ -29,13 +29,9 @@ public class EditInteractor implements EditInputBoundary {
         final int ID = editInputData.getID();
         final String title = editInputData.getTitle().strip();
         final String description = editInputData.getDescription().strip();
-        final List<List<String>> cards = editInputData.getCards();
-
-        // trim the front and back text whitespace
-        for (int k = 0; k < cards.size(); k++) {
-            final List<String> card = cards.get(k);
-            cards.set(k, List.of(card.getFirst().strip(), card.getLast().strip()));
-        }
+        final List<List<String>> cards = editInputData.getCards().stream()
+                .map(card -> List.of(card.getFirst().strip(), card.getLast().strip()))
+                .toList();
 
         // validate the title and description
         if (title.isBlank() || description.isBlank()) {
