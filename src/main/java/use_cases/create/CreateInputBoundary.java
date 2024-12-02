@@ -6,13 +6,19 @@ package use_cases.create;
 public interface CreateInputBoundary {
 
     /**
-     * executes our 'create' use case.
+     * executes the 'create' use case.
      * @param createInputData the input data.
      */
-    void execute(CreateInputData createInputData);
+    void create(CreateInputData createInputData);
 
     /**
-     * switches to the home view.
+     * Executes the 'create and study' use case.
+     * @param createInputData the input data.
+     */
+    void createAndStudy(CreateInputData createInputData);
+
+    /**
+     * Switches to the home view.
      * keeps the current state of the create view.
      */
     void switchToHomeView();

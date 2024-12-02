@@ -3,6 +3,7 @@ package interface_adapters.create;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.home.HomeState;
 import interface_adapters.home.HomeViewModel;
+import interface_adapters.study.StudyState;
 import interface_adapters.study.StudyViewModel;
 import use_cases.create.CreateOutputBoundary;
 import use_cases.create.CreateOutputData;
@@ -25,24 +26,20 @@ public class CreatePresenter implements CreateOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(CreateOutputData createOutputData) {
+    public void createSuccessful(CreateOutputData createOutputData) {
         final HomeState homeState = homeViewModel.getState();
         final CreateState createState = createViewModel.getState();
 
         homeState.addID(createOutputData.getID());
         homeState.addTitle(createOutputData.getTitle());
         homeState.addDescription(createOutputData.getDescription());
-        homeState.addFront(createOutputData.getFronts());
-        homeState.addBack(createOutputData.getBacks());
+        homeState.addCards(createOutputData.getCards());
 
         createState.setCreateTitle(createOutputData.getTitle());
         createState.setCreateDescription(createOutputData.getDescription());
-
-        createViewModel.setState(createState);
-        homeViewModel.setState(homeState);
-
-        // clears the create view
+        createState.setCreateError(null);
         createViewModel.firePropertyChanged();
+        homeViewModel.setState(homeState);
         switchToHomeView();
     }
 
@@ -63,7 +60,33 @@ public class CreatePresenter implements CreateOutputBoundary {
     }
 
     @Override
-    public void switchToStudyView(CreateOutputData outputData) {
-        // TODO
+    public void switchToStudyView(CreateOutputData createAndStudyOutputData) {
+        final HomeState homeState = homeViewModel.getState();
+        final StudyState studyState = studyViewModel.getState();
+        final CreateState createState = createViewModel.getState();
+
+        homeState.addID(createAndStudyOutputData.getID());
+        homeState.addTitle(createAndStudyOutputData.getTitle());
+        homeState.addDescription(createAndStudyOutputData.getDescription());
+        homeState.addCards(createAndStudyOutputData.getCards());
+
+        studyState.clear();
+        studyState.setTitle(createAndStudyOutputData.getTitle());
+        studyState.setDescription(createAndStudyOutputData.getDescription());
+        studyState.setOriginalCards(createAndStudyOutputData.getCards());
+
+        createState.setCreateTitle(createAndStudyOutputData.getTitle());
+        createState.setCreateDescription(createAndStudyOutputData.getDescription());
+        createState.setCreateError(null);
+        createViewModel.firePropertyChanged();
+
+        studyViewModel.setState(studyState);
+        studyViewModel.firePropertyChanged("init");
+
+        homeViewModel.setState(homeState);
+        homeViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(studyViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

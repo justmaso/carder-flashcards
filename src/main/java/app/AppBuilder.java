@@ -1,7 +1,9 @@
 package app;
 
+// import data_access.FileDataAccessObject;
 import data_access.InMemoryDataAccessObject;
 import entities.CardSetFactory;
+import interface_adapters.ThemeManager;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.create.CreateController;
 import interface_adapters.create.CreatePresenter;
@@ -12,6 +14,8 @@ import interface_adapters.edit.EditViewModel;
 import interface_adapters.home.HomeController;
 import interface_adapters.home.HomePresenter;
 import interface_adapters.home.HomeViewModel;
+import interface_adapters.study.StudyController;
+import interface_adapters.study.StudyPresenter;
 import interface_adapters.study.StudyViewModel;
 import use_cases.create.CreateInputBoundary;
 import use_cases.create.CreateInteractor;
@@ -22,12 +26,13 @@ import use_cases.create.CreateOutputBoundary;
 import use_cases.home.HomeInputBoundary;
 import use_cases.home.HomeInteractor;
 import use_cases.home.HomeOutputBoundary;
+import use_cases.study.StudyInputBoundary;
+import use_cases.study.StudyInteractor;
+import use_cases.study.StudyOutputBoundary;
 import views.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-import java.awt.CardLayout;
+import javax.swing.*;
+import java.awt.*;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -45,10 +50,24 @@ public class AppBuilder {
     private StudyView studyView;
     private StudyViewModel studyViewModel;
 
+    // private final FileDataAccessObject dataAO = new FileDataAccessObject();
     private final InMemoryDataAccessObject dataAO = new InMemoryDataAccessObject();
     private final CardSetFactory cardSetFactory = new CardSetFactory();
 
     public AppBuilder() {
+        Font FONT = new Font("D-DIN", Font.PLAIN, 20);
+        UIManager.put("Label.font", FONT);
+        UIManager.put("Button.font", FONT);
+        UIManager.put("TextField.font", FONT);
+        UIManager.put("TextArea.font", FONT);
+        UIManager.put("ComboBox.font", FONT);
+        UIManager.put("MenuBar.font", FONT);
+        UIManager.put("Panel.font", FONT);
+        UIManager.put("TextPane.font", FONT);
+        UIManager.put("OptionPane.messageFont", FONT);
+        UIManager.put("OptionPane.buttonFont", FONT);
+        ThemeManager.applyInitialTheme();
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
         cardPanel.setLayout(cardLayout);
     }
 
@@ -144,7 +163,14 @@ public class AppBuilder {
     }
 
     public AppBuilder addStudyUseCase() {
-        // TODO
+        final StudyOutputBoundary studyOutputBoundary = new StudyPresenter(
+                viewManagerModel,
+                studyViewModel,
+                homeViewModel
+        );
+        final StudyInputBoundary studyInputBoundary = new StudyInteractor(studyOutputBoundary);
+        final StudyController studyController  = new StudyController(studyInputBoundary);
+        studyView.setStudyController(studyController);
         return this;
     }
 
@@ -153,17 +179,18 @@ public class AppBuilder {
      * @return the app.
      */
     public JFrame build() {
-        final JFrame app = new JFrame("Carder Flashcards");
+        final JFrame app = new JFrame("carder flashcards");
 
         // app configuration
+        JFrame.setDefaultLookAndFeelDecorated(true);
         app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        app.setSize(850, 450);
         app.setLocationRelativeTo(null);
+        app.setSize(1080, 500);
         app.add(cardPanel);
 
         // executes the home use case and refreshes the home so we can
         // see pre-existing card sets from the DAO
-        homeController.execute();
+        homeController.refresh();
 
         // app initially shows the home view
         viewManagerModel.setState(homeViewModel.getViewName());
