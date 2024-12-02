@@ -40,9 +40,9 @@ public class AppBuilder {
     private HomeController homeController;
     private CreateView createView;
     private CreateViewModel createViewModel;
-    private EditView editView;
+    // private EditView editView;
     private EditViewModel editViewModel;
-    private StudyView studyView;
+    // private StudyView studyView;
     private StudyViewModel studyViewModel;
 
     private final InMemoryDataAccessObject dataAO = new InMemoryDataAccessObject();
@@ -80,7 +80,7 @@ public class AppBuilder {
      */
     public AppBuilder addEditView() {
         editViewModel = new EditViewModel();
-        editView = new EditView(editViewModel);
+        EditView editView = new EditView(editViewModel);
         cardPanel.add(editView, editViewModel.getViewName());
         return this;
     }
