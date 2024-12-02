@@ -79,8 +79,10 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
         buttonPanel.add(shuffleBtn);
         buttonPanel.add(unshuffleBtn);
 
+        // revert the cards to the original order, or move back to the start of the set
         unshuffleBtn.addActionListener(arg0 -> {
             loadDefaultCards(size, fronts, backs, cardsPanel, numberPanel);
+            // go back to the start
             currentCard = 1;
             cardLayoutCards.show(cardsPanel, "" + currentCard);
             cardLayoutNumbers.show(numberPanel, "" + currentCard);
@@ -107,6 +109,7 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
             }
         });
 
+        // functionality for shuffling the cards while studying
         shuffleBtn.addActionListener(arg0 -> {
             List<List<String>> frontToBack = new ArrayList<>();
             for (int i = 0; i < size; i++) {
@@ -115,6 +118,7 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
                 card.add(backs.get(i));
                 frontToBack.add(card);
             }
+            // show a new card to make "shuffle" more efficient/practical
             do {
                 Collections.shuffle(frontToBack);
             } while (frontToBack.getFirst().getFirst().equals(shuffledCards.get(currentCard - 1).getFirst()));
