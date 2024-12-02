@@ -1,6 +1,8 @@
 package use_cases.home;
 
 import entities.CardSet;
+import use_cases.edit.EditInputData;
+import use_cases.study.StudyInputData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,40 +25,37 @@ public class HomeInteractor implements HomeInputBoundary {
     }
 
     @Override
-    public void switchToEditView(String cardSetTitle) {
-        homePresenter.switchToEditView(cardSetTitle);
+    public void switchToEditView(EditInputData editInputData) {
+        homePresenter.switchToEditView(editInputData);
     }
 
     @Override
-    public void switchToStudyView(String cardSetTitle) {
-        homePresenter.switchToStudyView(cardSetTitle);
+    public void switchToStudyView(StudyInputData cardSetData) {
+        homePresenter.switchToStudyView(cardSetData);
     }
 
     @Override
-    public void execute() {
+    public void refresh() {
         final List<CardSet> allCardSets = homeDAO.getCardSets();
 
         List<Integer> IDs = new ArrayList<>();
         List<String> titles = new ArrayList<>();
         List<String> descriptions = new ArrayList<>();
-        List<List<String>> fronts = new ArrayList<>();
-        List<List<String>> backs = new ArrayList<>();
+        List<List<List<String>>> cards = new ArrayList<>();
 
         allCardSets.forEach(cardSet -> {
             IDs.add(cardSet.getID());
             titles.add(cardSet.getTitle());
             descriptions.add(cardSet.getDescription());
-            fronts.add(cardSet.getFronts());
-            backs.add(cardSet.getBacks());
+            cards.add(cardSet.getCards());
         });
         final HomeOutputData homeOutputData = new HomeOutputData(
                 IDs,
                 titles,
                 descriptions,
-                fronts,
-                backs
+                cards
         );
-        homePresenter.prepareSuccessView(homeOutputData);
+        homePresenter.refresh(homeOutputData);
     }
 
     @Override
