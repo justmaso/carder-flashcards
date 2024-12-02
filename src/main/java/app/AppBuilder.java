@@ -8,8 +8,8 @@ import interface_adapters.ViewManagerModel;
 import interface_adapters.create.CreateController;
 import interface_adapters.create.CreatePresenter;
 import interface_adapters.create.CreateViewModel;
-// import interface_adapters.edit.EditController;
-// import interface_adapters.edit.EditPresenter;
+import interface_adapters.edit.EditController;
+import interface_adapters.edit.EditPresenter;
 import interface_adapters.edit.EditViewModel;
 import interface_adapters.home.HomeController;
 import interface_adapters.home.HomePresenter;
@@ -20,9 +20,9 @@ import interface_adapters.study.StudyViewModel;
 import use_cases.create.CreateInputBoundary;
 import use_cases.create.CreateInteractor;
 import use_cases.create.CreateOutputBoundary;
-// import use_cases.edit.EditInputBoundary;
-// import use_cases.edit.EditInteractor;
-// import use_cases.edit.EditOutputBoundary;
+import use_cases.edit.EditInputBoundary;
+import use_cases.edit.EditInteractor;
+import use_cases.edit.EditOutputBoundary;
 import use_cases.home.HomeInputBoundary;
 import use_cases.home.HomeInteractor;
 import use_cases.home.HomeOutputBoundary;
@@ -33,6 +33,8 @@ import views.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -42,7 +44,6 @@ public class AppBuilder {
 
     private HomeView homeView;
     private HomeViewModel homeViewModel;
-    private HomeController homeController;
     private CreateView createView;
     private CreateViewModel createViewModel;
     private EditView editView;
@@ -55,6 +56,26 @@ public class AppBuilder {
     private final CardSetFactory cardSetFactory = new CardSetFactory();
 
     public AppBuilder() {
+        loadFont();
+        setGlobalFont();
+        ThemeManager.applyInitialTheme();
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+        cardPanel.setLayout(cardLayout);
+    }
+
+    private void loadFont() {
+        try {
+            InputStream inputStream = AppBuilder.class.getResourceAsStream("/fonts/D-DIN.otf");
+            if (inputStream == null) throw new IOException("D-DIN font not found");
+            final Font dDIN = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            GraphicsEnvironment gEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            gEnv.registerFont(dDIN);
+        } catch (IOException | FontFormatException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setGlobalFont() {
         Font FONT = new Font("D-DIN", Font.PLAIN, 20);
         UIManager.put("Label.font", FONT);
         UIManager.put("Button.font", FONT);
@@ -66,13 +87,10 @@ public class AppBuilder {
         UIManager.put("TextPane.font", FONT);
         UIManager.put("OptionPane.messageFont", FONT);
         UIManager.put("OptionPane.buttonFont", FONT);
-        ThemeManager.applyInitialTheme();
-        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-        cardPanel.setLayout(cardLayout);
     }
 
     /**
-     * Adds the home view to our app.
+     * Adds the home view to the app.
      * @return this builder.
      */
     public AppBuilder addHomeView() {
@@ -83,7 +101,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the create view to our app.
+     * Adds the create view to the app.
      * @return this builder.
      */
     public AppBuilder addCreateView() {
@@ -94,7 +112,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the edit view to our app.
+     * Adds the edit view to the app.
      * @return this builder.
      */
     public AppBuilder addEditView() {
@@ -105,7 +123,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the study view to our app.
+     * Adds the study view to the app.
      * @return this builder.
      */
     public AppBuilder addStudyView() {
@@ -116,7 +134,7 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the home use case to our app.
+     * Adds the home use case to the app.
      * @return this builder.
      */
     public AppBuilder addHomeUseCase() {
@@ -131,13 +149,13 @@ public class AppBuilder {
                 dataAO,
                 homeOutputBoundary
         );
-        homeController = new HomeController(homeInputBoundary);
+        final HomeController homeController = new HomeController(homeInputBoundary);
         homeView.setHomeController(homeController);
         return this;
     }
 
     /**
-     * Adds the creation use case to our app.
+     * Adds the creation use case to the app.
      * @return this builder.
      */
     public AppBuilder addCreateUseCase() {
@@ -157,8 +175,23 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the edit use case to the app.
+     * @return this builder.
+     */
     public AppBuilder addEditUseCase() {
-        // TODO
+        final EditOutputBoundary editOutputBoundary = new EditPresenter(
+                viewManagerModel,
+                editViewModel,
+                homeViewModel
+        );
+        final EditInputBoundary editInputBoundary = new EditInteractor(
+                dataAO,
+                editOutputBoundary,
+                cardSetFactory
+        );
+        final EditController editController = new EditController(editInputBoundary);
+        editView.setEditController(editController);
         return this;
     }
 
@@ -190,7 +223,7 @@ public class AppBuilder {
 
         // executes the home use case and refreshes the home so we can
         // see pre-existing card sets from the DAO
-        homeController.refresh();
+        homeViewModel.firePropertyChanged("init");
 
         // app initially shows the home view
         viewManagerModel.setState(homeViewModel.getViewName());

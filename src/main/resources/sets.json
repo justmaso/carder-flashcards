@@ -1,0 +1,481 @@
+[
+    {
+        "ID": 0,
+        "title": "(01/02) CSC207H1",
+        "description": "Intro + Git",
+        "cards": [
+            [
+                "Formats best suitable for version control ",
+                "Plaintext (e.g., Java, Python, markdown, etc.) (human-readable)"
+            ],
+            [
+                "For non-plaintext formats (e.g., .docx, .xlsx), what feature is introduced? ",
+                "Track changes mode"
+            ],
+            [
+                "A remote repository lives on ",
+                "Another server"
+            ],
+            [
+                "By convention, the remote (repo) is called ",
+                "Origin"
+            ],
+            [
+                "git clone <remote_url> ",
+                "Makes copy of remote on local machine"
+            ],
+            [
+                "To commit changes to the local repo, what first must you do? ",
+                "Stage the changes"
+            ],
+            [
+                "git add <file1> ... ",
+                "Stages files to be committed"
+            ],
+            [
+                "What four states can a file be in? (4p) ",
+                "1. Untracked: no git command ran\n2. Tracked: committed\n3. Staged: git add used and changes are ready to be committed\n4. Dirty/modified: file has unstaged changes"
+            ],
+            [
+                "What can occur between two versions of the same file? ",
+                "A conflict"
+            ],
+            [
+                "When a conflict occurs, what does git show? ",
+                "Everywhere they differ"
+            ],
+            [
+                "To avoid constantly resolving conflicts, what do developers create? What is then submitted? ",
+                "- A branch (where new feature is worked on)\n- A pull request"
+            ],
+            [
+                "After a pull request is reviewed and conflicts are resolved, what happens to the branch? ",
+                "It is merged"
+            ]
+        ]
+    },
+    {
+        "ID": 1,
+        "title": "(03/04) CSC207H1",
+        "description": "Java + Entity Discovery + OOP",
+        "cards": [
+            [
+                "To run a program, what must be done to it? (03-J) ",
+                "Translation from high-level (programming) to low-level (machine) language for execution"
+            ],
+            [
+                "2 types of translation (2p) (03-J) ",
+                "1. Interpretation (ex: Python)\n2. Compilation (ex: C)"
+            ],
+            [
+                "Interpreted programs do what? (03-J) ",
+                "Translate and execute one statement at a time"
+            ],
+            [
+                "Compilers do what? (03-J) ",
+                "Translates entire program to an executable file"
+            ],
+            [
+                "What can the translated executable program be run on? (03-J) ",
+                "The OS"
+            ],
+            [
+                "Is Java interpreted or compiled? (03-J) ",
+                "Both"
+            ],
+            [
+                "Java programs are compiled to (03-J) ",
+                "Bytecode (similar to assembly) using the Java compiler"
+            ],
+            [
+                "What is Java bytecode considered? (03-J) ",
+                "An intermediate representation (of the program)"
+            ],
+            [
+                "Which executable runs the compiled Java bytecode (one statement at a time)? (03-J) ",
+                "The JVM (Java Virtual Machine)"
+            ],
+            [
+                "From the command line, what program is used to compile .java files? What does this create? (03-J) ",
+                "- javac <file.java>\n- A .class file"
+            ],
+            [
+                "To run a compiled java file (i.e., a .class file), what program is used in the command line? (03-J) ",
+                "java <file> (excludes the .class extension)"
+            ],
+            [
+                "What is a virtual machine (VM)? (03-J) ",
+                "An app that pretends to be a computer"
+            ],
+            [
+                "What is the VM application written for? (03-J) ",
+                "Multiple operating systems (to make programs portable)"
+            ],
+            [
+                "The JVM is an application that is like an (03-J) ",
+                "Operating system"
+            ],
+            [
+                "When generating an initial set of classes from a written specification, what three main pieces of info do we include about each class? (3p) (03-E) ",
+                "1. Class name (nouns)\n2. Attributes (adjectives / nouns)\n3. Methods (verbs)"
+            ],
+            [
+                "What are the other classes called that interact with a class? (03-E) ",
+                "Its collaborators"
+            ],
+            [
+                "Open arrowheads indicate (03-E) ",
+                "Inheritance"
+            ],
+            [
+                "Solid arrowheads indicate (03-E) ",
+                "Composition"
+            ],
+            [
+                "What is the advantage of encapsulation? (04-O) ",
+                "Implementation can be changed without affecting other code"
+            ],
+            [
+                "Everything in a class should be as (04-O) ",
+                "Private as possible"
+            ],
+            [
+                "Instance variables should always be (04-O) ",
+                "Private"
+            ],
+            [
+                "Public methods provide an (04-O) ",
+                "API (application programming interface)"
+            ],
+            [
+                "If helper methods are created, they should be (04-O) ",
+                "Private"
+            ],
+            [
+                "What is the javadoc written for? (3p) (04-O) ",
+                "1. Classes\n2. Member variables\n3. Member methods"
+            ],
+            [
+                "What do UML (unified modelling language) class diagrams show? (2p) (04-O) ",
+                "1. Inheritance hierarchy\n2. Class relationships"
+            ],
+            [
+                "Is the UML a memory model? (04-O) ",
+                "No"
+            ],
+            [
+                "What do all classes form? What is at the root? (04-O) ",
+                "- An inheritance hierarchy tree\n- Object"
+            ],
+            [
+                "Does Object have a parent? (04-O) ",
+                "No"
+            ],
+            [
+                "What do all java classes (except for Object) have? (04-O) ",
+                "Exactly 1 parent"
+            ],
+            [
+                "What does the Object class guarantee every class inherits? (04-O) ",
+                "Predefined methods (e.g., .toString, .equals, etc.)"
+            ],
+            [
+                "In Java, objects have (04-O) ",
+                "Multiple parts"
+            ],
+            [
+                "Regardless of reference type, Java calls the (04-O)",
+                "Lowest method in an object"
+            ],
+            [
+                "What does the Java compiler use to determine if a statement is valid? (04-O) ",
+                "The reference type"
+            ],
+            [
+                "Does the Java compiler keep track of object types? What is it track instead? (04-O) ",
+                "- No\n- Variable (reference) types"
+            ],
+            [
+                "What keyword (in Java) can be used to determine if an object is of a certain type? (04-O) ",
+                "instanceof"
+            ],
+            [
+                "What happens when a new object is created? (3p) (04-O) ",
+                "1. Instantiate an object\n2. Initialize instance variables to default values, then execute direct initializations in order\n3. Calls appropriate constructor"
+            ],
+            [
+                "If super isn't called in the constructor, what happens? (04-O) ",
+                "Java does it for you (automatically)"
+            ],
+            [
+                "All classes directly or indirectly extend (04-O) ",
+                "Object"
+            ],
+            [
+                "What are the Java lookup rules? (3p) (04-O) ",
+                "1. Check existence in left TYPE\n2. If it doesn't exist, check higher\n3. If it doesn't exist in higher, error occurs"
+            ],
+            [
+                "Reference types store (04-O) ",
+                "Addresses (pointers)"
+            ],
+            [
+                "Primitive types store (04-O) ",
+                "Their actual values (no pointers)"
+            ],
+            [
+                "Each primitive type has a (04-O) ",
+                "Wrapper class"
+            ],
+            [
+                "Autoboxing is when a primitive is (04-O) ",
+                "Made into an object"
+            ],
+            [
+                "Unboxing is when an object is (04-O) ",
+                "Treated like a primitive"
+            ]
+        ]
+    },
+    {
+        "ID": 2,
+        "title": "(05) CSC207H1",
+        "description": "Interfaces, Generics, & The JCF",
+        "cards": [
+            [
+                "Interfaces are separate from ",
+                "The inheritance hierarchy"
+            ],
+            [
+                "Interfaces can't have ",
+                "Instance variables (no state)"
+            ],
+            [
+                "Interfaces must provide methods that are (2p) ",
+                "1. Abstract; or\n2. Implemented by default"
+            ],
+            [
+                "Do we have to use the \"abstract\" keyword when working inside of interfaces? Why? ",
+                "- No\n- Because they are assumed"
+            ],
+            [
+                "What keyword is used if the interface provides a default implementation? ",
+                "\"default\""
+            ],
+            [
+                "Generics are just ",
+                "Type parameters"
+            ],
+            [
+                "What does \"class Foo<T>\" introduce? ",
+                "A class with type parameter T"
+            ],
+            [
+                "What does \"<T extends Bar>\" introduce? ",
+                "A type parameter T that is required to be a descendant of class Bar (T can be Bar itself)"
+            ],
+            [
+                "What is \"<? extends Bar>\"? Why is it a question mark? ",
+                "- A type parameter that can be any class that extends Bar\n- Because it is never referred to later"
+            ],
+            [
+                "What is \"<? super Bar>\"? ",
+                "A type parameter that can be any ancestor of Bar"
+            ],
+            [
+                "Interfaces go on the ",
+                "Left"
+            ],
+            [
+                "Classes go on the ",
+                "Right"
+            ],
+            [
+                "Can you instantiate an interface in Java? ",
+                "No"
+            ],
+            [
+                "What are the naming conventions for generics? (2p) ",
+                "1. Very short (usually a single character)\n2. All uppercase"
+            ],
+            [
+                "A collection is an object that represents ",
+                "A group of objects"
+            ],
+            [
+                "A collections framework is a ",
+                "Unified architecture (for representing and manipulating collections)"
+            ],
+            [
+                "Frameworks provide a ",
+                "Standard interface (for collections and algorithms)"
+            ]
+        ]
+    },
+    {
+        "ID": 3,
+        "title": "(07/08) CSC207H1",
+        "description": "Java Swing + Testing",
+        "cards": [
+            [
+                "Java Swing is a (07) ",
+                "GUI (graphical user interface) toolkit"
+            ],
+            [
+                "Most class names in Swing start with (07) ",
+                "J"
+            ],
+            [
+                "A JPanel is a (07) ",
+                "Container (you can add other components to it)"
+            ],
+            [
+                "What does each JPanel have? What does this determine? (07) ",
+                "- A layout manager\n- How components are arranged"
+            ],
+            [
+                "The default layout manager is (07) ",
+                "FlowLayout (LTR)"
+            ],
+            [
+                "When you instantiate a listener, what should you do with it? (07) ",
+                "Inject it into a JButton object"
+            ],
+            [
+                "Each listener has this method that gets called when the associated button is clicked (07) ",
+                "actionPerformed"
+            ],
+            [
+                "To make variables (e.g., text fields, other components, etc.), you'll need them in an (07) ",
+                "Enclosing scope"
+            ],
+            [
+                "Unit tests consist of ",
+                "Small, independent tests"
+            ],
+            [
+                "JUnit creates a standardized ",
+                "Testing environment"
+            ],
+            [
+                "The setup phase of testing includes a single method annotated with ",
+                "@BeforeEach"
+            ],
+            [
+                "The teardown phase of testing includes a single method annotated with ",
+                "@AfterEach"
+            ],
+            [
+                "@BeforeEach and @AfterEach methods are called before and after every ",
+                "@Test method"
+            ],
+            [
+                "Methods annotated with @BeforeAll run once before ",
+                "Any @Test method runs"
+            ],
+            [
+                "Methods annotated with @AfterAll run once after ",
+                "All @Test methods run"
+            ],
+            [
+                "Tests provide tangible evidence of ",
+                "Progress"
+            ]
+        ]
+    },
+    {
+        "ID": 4,
+        "title": "(09/10) CSC207H1",
+        "description": "SOLID + Exceptions",
+        "cards": [
+            [
+                "SOLID stands for ",
+                "1. Single responsibility principle (SRP)\n2. Open-closed principle (OCP)\n3. Liskov substitution principle (LSP)\n4. Interface segregation principle (ISP)\n5. Dependency inversion principle (DIP)"
+            ],
+            [
+                "Every class should have a ",
+                "Single responsibility"
+            ],
+            [
+                "Can cause a class to change ",
+                "Actors (e.g., users, stakeholders, etc.)"
+            ],
+            [
+                "When using the fa\u00e7ade design pattern, we delegate ",
+                "Work to other classes"
+            ],
+            [
+                "According to the open-closed principle, software should be (2p) ",
+                "1. Open for extension\n2. Closed for modification"
+            ],
+            [
+                "According to Liskov's substitution principle, if S is a subtype of T, then objects of type S may be ",
+                "Substituted for objects of type T (without any alterations)"
+            ],
+            [
+                "In Java, if S is a subtype of T then (2p) ",
+                "1. S is a child class of T\n2.S implements interface T"
+            ],
+            [
+                "Subclasses should only ",
+                "Extend behaviour(s)"
+            ],
+            [
+                "Interfaces refer to the ",
+                "Public methods of a class"
+            ],
+            [
+                "In Java, interface methods are implemented by other ",
+                "Classes"
+            ],
+            [
+                "According to the interface segregation principle, we should keep ",
+                "Interfaces small (so users don't depend on things they don't need)"
+            ],
+            [
+                "To avoid problems with high coupling, we introduce this ",
+                "Abstraction layer (between low and high level classes)"
+            ],
+            [
+                "To invert a source code dependency, we introduce an ",
+                "Interface"
+            ],
+            [
+                "Exceptions report ",
+                "Exceptional conditions (i.e., unusual, strange, unexpected)"
+            ],
+            [
+                "To catch and deal with exceptions, we use ",
+                "Try-catch statements"
+            ],
+            [
+                "To deal with multiple types of exceptions, we can ",
+                "Chain together catches"
+            ],
+            [
+                "In try-catch sections, finally is always ",
+                "Executed"
+            ],
+            [
+                "If code is called that throws non-Runtime exceptions, you can (2p) ",
+                "1. Deal with it inside of a try-catch\n2. Declare your code may throw an exception (i.e., with \"throws\")"
+            ],
+            [
+                "The compiler will check that these types of exceptions are dealt with ",
+                "Checked exceptions"
+            ],
+            [
+                "Instead of throwing an instance of Exception, we should throw something ",
+                "More specific"
+            ],
+            [
+                "When a static class is defined inside another class, it cannot access ",
+                "Any members of the enclosing class"
+            ],
+            [
+                "When a non-static class is defined inside another class, it can access ",
+                "All members of the enclosing class (even private ones)"
+            ]
+        ]
+    }
+]

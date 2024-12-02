@@ -1,0 +1,102 @@
+[
+  {
+    "ID": "1",
+    "title": "american psycho",
+    "description": "memorable lines from the cult classic",
+    "cards": [
+      ["i have to return some videotapes", "patrick bateman's iconic excuse"],
+      ["do you like huey lewis and the news?", "bateman's music taste before chaos"],
+      ["it's not about money. it's about sending a message.", "bateman's philosophy"]
+    ]
+  },
+  {
+    "ID": "2",
+    "title": "fight club",
+    "description": "the rules of fight club",
+    "cards": [
+      ["rule 1", "you do not talk about fight club"],
+      ["rule 2", "you do not talk about fight club"],
+      ["rule 3", "if someone yells stop, goes limp, or taps out, the fight is over"]
+    ]
+  },
+  {
+    "ID": "3",
+    "title": "avengers: infinity war",
+    "description": "iconic quotes from infinity war",
+    "cards": [
+      ["i am inevitable.", "thanos"],
+      ["you should have gone for the head.", "thanos to thor"],
+      ["we’re in the endgame now.", "doctor strange"]
+    ]
+  },
+  {
+    "ID": "4",
+    "title": "avengers",
+    "description": "memorable moments from endgame",
+    "cards": [
+      ["i love you 3000.", "tony stark's daughter to him"],
+      ["whatever it takes.", "avengers rallying cry"],
+      ["on your left.", "sam wilson to captain america"]
+    ]
+  },
+  {
+    "ID": "5",
+    "title": "spider-man",
+    "description": "nostalgic lines",
+    "cards": [
+      ["with great power comes great responsibility.", "aunt may"],
+      ["i'm something of a scientist myself.", "norman osborn"],
+      ["you know, i’m somewhat of a mentor.", "tobey maguire’s peter parker"]
+    ]
+  },
+  {
+    "ID": "6",
+    "title": "the dark knight",
+    "description": "joker's lines",
+    "cards": [
+      ["why so serious?", "joker's question to harvey dent"],
+      ["you either die a hero, or you live long enough to see yourself become the villain.", "harvey dent"],
+      ["it’s not about the money. it’s about sending a message.", "joker's anarchic philosophy"]
+    ]
+  },
+  {
+    "ID": "7",
+    "title": "inception",
+    "description": "concepts and lines",
+    "cards": [
+      ["dream within a dream", "the concept of layering dreams"],
+      ["you mustn’t be afraid to dream a little bigger, darling.", "eames"],
+      ["paradoxical architecture", "the impossible designs in dreams"]
+    ]
+  },
+  {
+    "ID": "8",
+    "title": "harry potter",
+    "description": "a few spells from hogwarts",
+    "cards": [
+      ["expelliarmus", "disarming spell"],
+      ["lumos", "lights up your wand"],
+      ["accio", "summoning charm"]
+    ]
+  },
+  {
+    "ID": "9",
+    "title": "the matrix",
+    "description": "concepts and quotes",
+    "cards": [
+      ["there is no spoon.", "the realization of the matrix's illusion"],
+      ["red pill or blue pill?", "morpheus's choice to neo"],
+      ["i know kung fu.", "neo after downloading martial arts knowledge"]
+    ]
+  },
+  {
+    "ID": "10",
+    "title": "star wars",
+    "description": "classic lines from a galaxy far, far away",
+    "cards": [
+      ["may the force be with you.", "star wars motto"],
+      ["i am your father.", "darth vader's revelation to luke"],
+      ["do or do not. there is no try.", "yoda's advice"]
+    ]
+  }
+]

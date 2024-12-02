@@ -35,7 +35,7 @@ public class HomeView extends ParentView implements PropertyChangeListener {
 
         addAboutListener(e -> {
             JOptionPane.showMessageDialog(this,
-                    "carder flashcards is a simple studying app built in java\n");
+                    "carder flashcards is a simple studying app built in java");
         });
     }
 
@@ -77,13 +77,17 @@ public class HomeView extends ParentView implements PropertyChangeListener {
             final JButton editButton = new JButton("edit");
             final JButton deleteButton = new JButton("delete");
 
+            // add tool tips to the buttons
+            final String commonText = String.format("%s: %s", titles.get(k), descriptions.get(k));
+            studyButton.setToolTipText(String.format("study %s", commonText));
+            editButton.setToolTipText(String.format("edit %s", commonText));
+            deleteButton.setToolTipText(String.format("delete %s", commonText));
+
             // add the buttons
             buttonsPanel.add(studyButton);
             buttonsPanel.add(editButton);
             buttonsPanel.add(deleteButton);
 
-//            row.add(infoLabel, BorderLayout.EAST);
-//            row.add(buttonsPanel, BorderLayout.WEST);
             row.add(buttonsPanel);
             row.add(infoLabel);
             // add functionality to the buttons
@@ -96,17 +100,18 @@ public class HomeView extends ParentView implements PropertyChangeListener {
                 );
             });
             editButton.addActionListener(e -> {
-                JOptionPane.showMessageDialog(this,
-                        String.format("editing [%d], described as [%s]", IDs.get(finalK), descriptions.get(finalK)));
+                homeController.switchToEditView(
+                        IDs.get(finalK),
+                        titles.get(finalK),
+                        descriptions.get(finalK),
+                        cards.get(finalK)
+                );
             });
             deleteButton.addActionListener(e -> {
                 int choice = JOptionPane.showConfirmDialog(this,
                         String.format("are you sure you want to delete\n%s: %s?", titles.get(finalK), descriptions.get(finalK)));
                 if (choice == JOptionPane.YES_OPTION) {
                     homeController.removeCardSet(titles.get(finalK));
-
-                    // updates the cards available after deletion
-                    // automatically refreshes our home view
                     homeController.refresh();
                 }
             });
@@ -137,7 +142,11 @@ public class HomeView extends ParentView implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        cardSetsPanel = getCardSetsPanel();
-        cardSetsScrollPane.setViewportView(cardSetsPanel);
+        if ("edited".equals(event.getPropertyName()) || "init".equals(event.getPropertyName())) {
+            homeController.refresh();
+        } else {
+            cardSetsPanel = getCardSetsPanel();
+            cardSetsScrollPane.setViewportView(cardSetsPanel);
+        }
     }
 }

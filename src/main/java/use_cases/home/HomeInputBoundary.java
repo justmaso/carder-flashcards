@@ -1,5 +1,8 @@
 package use_cases.home;
 
+import use_cases.edit.EditInputData;
+import use_cases.study.StudyInputData;
+
 /**
  * The home input boundary for home actions.
  */
@@ -7,7 +10,7 @@ public interface HomeInputBoundary {
     /**
      * Refreshes the home view and updates the sets visible.
      */
-    void execute();
+    void refresh();
 
     /**
      * Switches to the create view.
@@ -16,15 +19,15 @@ public interface HomeInputBoundary {
 
     /**
      * Switches to the edit view.
-     * @param cardSetTitle the title of the set to edit
+     * @param editInputData the card set data to edit.
      */
-    void switchToEditView(String cardSetTitle);
+    void switchToEditView(EditInputData editInputData);
 
     /**
      * Switches to the study view.
-     * @param cardSetTitle the title of set to study.
+     * @param cardSetData the data of the set to study.
      */
-    void switchToStudyView(String cardSetTitle);
+    void switchToStudyView(StudyInputData cardSetData);
 
     /**
      * Deletes a card set.
