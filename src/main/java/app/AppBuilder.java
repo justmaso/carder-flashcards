@@ -1,7 +1,7 @@
 package app;
 
-import data_access.FileDataAccessObject;
-//import data_access.InMemoryDataAccessObject;
+// import data_access.FileDataAccessObject;
+import data_access.InMemoryDataAccessObject;
 import entities.CardSetFactory;
 import interface_adapters.ThemeManager;
 import interface_adapters.ViewManagerModel;
@@ -50,7 +50,8 @@ public class AppBuilder {
     private StudyView studyView;
     private StudyViewModel studyViewModel;
 
-    private final FileDataAccessObject dataAO = new FileDataAccessObject();
+    // private final FileDataAccessObject dataAO = new FileDataAccessObject();
+    private final InMemoryDataAccessObject dataAO = new InMemoryDataAccessObject();
     private final CardSetFactory cardSetFactory = new CardSetFactory();
 
     public AppBuilder() {
@@ -183,8 +184,8 @@ public class AppBuilder {
         // app configuration
         JFrame.setDefaultLookAndFeelDecorated(true);
         app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        app.setSize(1080, 500);
         app.setLocationRelativeTo(null);
+        app.setSize(1080, 500);
         app.add(cardPanel);
 
         // executes the home use case and refreshes the home so we can
