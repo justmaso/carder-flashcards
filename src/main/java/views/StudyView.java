@@ -13,6 +13,7 @@ import java.util.*;
 import interface_adapters.study.StudyController;
 import interface_adapters.study.StudyState;
 import interface_adapters.study.StudyViewModel;
+import interface_adapters.TextToSpeech;
 
 /**
  * A class for the study view.
@@ -23,9 +24,9 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
     private int currentCard = 1;
     private CardLayout cardLayoutCards;
     private CardLayout cardLayoutNumbers;
-    private CardLayout cardLayoutFavorites;
     private JPanel studyPanel = new JPanel();
     private StudyController studyController;
+    private List<List<String>> shuffledCards = new ArrayList<>();
 
     public StudyView(StudyViewModel svm) {
 
@@ -68,39 +69,23 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
             cardsPanel.add(cl, curr);
             JLabel number = new JLabel(curr + " / " + size);
             numberPanel.add(number, curr);
+            List<String> currentCardsText = new ArrayList<>();
+            currentCardsText.add(fronts.get(i));
+            currentCardsText.add(backs.get(i));
+            shuffledCards.add(currentCardsText);
         }
         // Create a JPanel for the navigation buttons
         JPanel buttonPanel = new JPanel();
 
         // Initialize the buttons to move through flashcard set
-        JButton firstBtn = new JButton("First");
         JButton nextBtn = new JButton("Next");
         JButton previousBtn = new JButton("Previous");
-        JButton lastBtn = new JButton("Last");
         JButton shuffleBtn = new JButton("Shuffle");
 
         // Add buttons to move through the flashcard set.
-        buttonPanel.add(firstBtn);
         buttonPanel.add(previousBtn);
         buttonPanel.add(nextBtn);
-        buttonPanel.add(lastBtn);
         buttonPanel.add(shuffleBtn);
-
-        // add 'first' button in ActionListener
-        firstBtn.addActionListener(arg0 -> {
-            // value of the first card is 1
-            currentCard = 1;
-            cardLayoutCards.show(cardsPanel, "" + currentCard);
-            cardLayoutNumbers.show(numberPanel, "" + currentCard);
-        });
-
-        // add "last" button in ActionListener
-        lastBtn.addActionListener(arg0 -> {
-            // last card in CardLayout
-            currentCard = size;
-            cardLayoutCards.show(cardsPanel, "" + currentCard);
-            cardLayoutNumbers.show(numberPanel, "" + currentCard);
-        });
 
         // add 'next' button in ActionListener
         nextBtn.addActionListener(arg0 -> {
@@ -131,8 +116,10 @@ public class StudyView extends ParentView implements PropertyChangeListener, Act
                 card.add(backs.get(i));
                 frontToBack.add(card);
             }
-
-            Collections.shuffle(frontToBack);
+            do {
+                Collections.shuffle(frontToBack);
+            } while (frontToBack.getFirst().getFirst().equals(shuffledCards.get(currentCard - 1).getFirst()));
+            shuffledCards = frontToBack;
             for (int i = 0; i < size; i++) {
                 JPanel cl = new CardPanel(frontToBack.get(i).getFirst(), frontToBack.get(i).getLast());
                 cardsPanel.add(cl, String.valueOf(i + 1));
