@@ -12,8 +12,7 @@ public class HomeState {
     private Deque<Integer> IDs = new ArrayDeque<>();
     private Deque<String> titles = new ArrayDeque<>();
     private Deque<String> descriptions = new ArrayDeque<>();
-    private Deque<List<String>> fronts = new ArrayDeque<>();
-    private Deque<List<String>> backs = new ArrayDeque<>();
+    private Deque<List<List<String>>> cards = new ArrayDeque<>();
 
     /**
      * Gets all IDs currently in the home state.
@@ -93,53 +92,26 @@ public class HomeState {
     }
 
     /**
-     * Gets all the front texts in the home state.
-     * @return a list of all front texts in the home state.
+     * Gets all the current cards in the home state.
+     * @return all the current cards.
      */
-    public List<List<String>> getFronts() {
-        // returns a new list to avoid potential modification
-        return new ArrayList<>(fronts);
+    public List<List<List<String>>> getCards() {
+        return new ArrayList<>(cards);
     }
 
     /**
-     * Updates all the front texts in the home state.
-     * @param newFronts the new front texts for the home state.
+     * Adds a new list of pairs representing front and back texts.
+     * @param newCards the list of text pairs to add.
      */
-    public void updateFronts(List<List<String>> newFronts) {
-        fronts = new ArrayDeque<>(newFronts);
+    public void addCards(List<List<String>> newCards) {
+        cards.addFirst(newCards);
     }
 
     /**
-     * Adds a list of front texts to the home state.
-     * @param newFront the new front texts being added.
+     * Updates the home state's cards.
+     * @param newCards the new cards to set the home state to.
      */
-    public void addFront(List<String> newFront) {
-        fronts.addFirst(newFront);
-    }
-
-    /**
-     * Gets all the back texts in the home state.
-     * @return a list of all back texts in the home state.
-     */
-    public List<List<String>> getBacks() {
-        // returns a new list to avoid potential modification
-        return new ArrayList<>(backs);
-    }
-
-    /**
-     * Updates all the back texts in the home state.
-     * @param newBacks the new back texts for the home state.
-     */
-    public void updateBacks(List<List<String>> newBacks) {
-        backs = new ArrayDeque<>(newBacks);
-    }
-
-    /**
-     * Adds a list of back texts to the home state.
-     * @param newBack the new back texts being added.
-     */
-    public void addBack(List<String> newBack) {
-        backs.addFirst(newBack);
+    public void updateCards(List<List<List<String>>> newCards) {
+        cards = new ArrayDeque<>(newCards);
     }
 }
-
