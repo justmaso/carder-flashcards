@@ -1,6 +1,5 @@
 package use_cases.edit;
 
-import entities.CardSet;
 import entities.CardSetFactory;
 
 import java.util.List;
@@ -24,11 +23,13 @@ public class EditInteractor implements EditInputBoundary {
             editPresenter.editSuccessful();
         }
     }
-
+    // checks if user input for edit title/description is valid
     private boolean editsValid(EditInputData editInputData) {
         final int ID = editInputData.getID();
+        // strip to remove whitespaces
         final String title = editInputData.getTitle().strip();
         final String description = editInputData.getDescription().strip();
+        // convert card set into sequence of elements to be processed
         final List<List<String>> cards = editInputData.getCards().stream()
                 .map(card -> List.of(card.getFirst().strip(), card.getLast().strip()))
                 .toList();
@@ -43,7 +44,7 @@ public class EditInteractor implements EditInputBoundary {
                     "please choose another title");
             return false;
         }
-        // validate the cards
+        // checks to make sure there are no blank cards
         for (List<String> pairs : cards) {
             if (pairs.getFirst().isBlank() || pairs.getLast().isBlank()) {
                 editPresenter.editFailed("one or more cards are not filled.\n" +
